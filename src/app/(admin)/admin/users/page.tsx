@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Container } from '@/components/patterns/container';
+import { Button } from '@/components/ui';
 import { listUsers } from '@/server/services/admin';
 import { UserRow } from '@/components/features/admin/user-row';
 
@@ -99,12 +100,9 @@ export default async function AdminUsersPage({
             <option value="none">sem entitlement</option>
           </select>
         </div>
-        <button
-          type="submit"
-          className="bg-acid text-ink h-9 px-4 font-mono text-[11px] tracking-[0.22em] uppercase shadow-[3px_3px_0_var(--jb-fire)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_var(--jb-fire)]"
-        >
+        <Button type="submit" variant="primary" size="sm" className="font-mono text-[11px] tracking-[0.22em]">
           Filtrar
-        </button>
+        </Button>
       </form>
 
       <div className="bg-ink-2 border-2 border-[var(--jb-hair)] overflow-x-auto">

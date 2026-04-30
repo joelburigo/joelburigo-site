@@ -8,6 +8,7 @@ import {
   SheetTitle,
   SheetDescription,
 } from '@/components/ui/sheet';
+import { ButtonLink } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -366,12 +367,14 @@ function Toolbar({
         </div>
 
         {!hasGoogleAccount && (
-          <a
+          <ButtonLink
             href="/admin/integrations/google"
-            className="border border-fire bg-fire/10 px-4 py-2 font-mono text-[11px] tracking-[0.22em] text-fire uppercase transition-all hover:bg-fire/20 hover:shadow-[3px_3px_0_var(--jb-fire)]"
+            variant="outlineFire"
+            size="sm"
+            className="font-mono text-[11px] tracking-[0.22em]"
           >
             Conectar Google →
-          </a>
+          </ButtonLink>
         )}
       </div>
     </div>

@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { Button } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
 /**
@@ -334,13 +335,9 @@ export function AvailabilityEditor({ initialWindows, initialOverrides }: Props) 
             />
           </div>
           <div className="flex items-end">
-            <button
-              type="submit"
-              disabled={savingWindow}
-              className="bg-acid text-ink font-display text-xs uppercase tracking-wider px-5 py-2 shadow-[3px_3px_0_var(--jb-fire)] transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_var(--jb-fire)] disabled:opacity-50"
-            >
+            <Button type="submit" variant="primary" size="sm" disabled={savingWindow}>
               {savingWindow ? 'Salvando...' : 'Adicionar →'}
-            </button>
+            </Button>
           </div>
         </form>
       </section>
@@ -448,13 +445,9 @@ export function AvailabilityEditor({ initialWindows, initialOverrides }: Props) 
             />
           </div>
           <div className="flex items-end">
-            <button
-              type="submit"
-              disabled={savingOverride}
-              className="bg-acid text-ink font-display text-xs uppercase tracking-wider px-5 py-2 shadow-[3px_3px_0_var(--jb-fire)] transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[5px_5px_0_var(--jb-fire)] disabled:opacity-50"
-            >
+            <Button type="submit" variant="primary" size="sm" disabled={savingOverride}>
               {savingOverride ? 'Salvando...' : 'Adicionar →'}
-            </button>
+            </Button>
           </div>
         </form>
       </section>

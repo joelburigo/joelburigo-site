@@ -5,6 +5,7 @@ import { db } from '@/server/db/client';
 import { calendar_accounts, calendar_events } from '@/server/db/schema';
 import { requireAdmin } from '@/server/services/session';
 import { GoogleIntegrationActions } from '@/components/features/admin/google-integration-actions';
+import { Button } from '@/components/ui';
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
@@ -160,12 +161,9 @@ function ConnectCard() {
         Autoriza acesso à conta Google do Joel pra ler/escrever eventos. Calendar primário é
         configurado em <code className="font-mono text-acid">GOOGLE_PRIMARY_CALENDAR_ID</code>.
       </p>
-      <a
-        href="/api/calendar/google/connect"
-        className="mt-6 inline-flex items-center gap-2 bg-acid text-ink font-display text-sm uppercase tracking-wider px-7 py-3.5 shadow-[4px_4px_0_var(--jb-fire)] transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_var(--jb-fire)]"
-      >
-        Iniciar OAuth →
-      </a>
+      <Button asChild variant="primary" className="mt-6">
+        <a href="/api/calendar/google/connect">Iniciar OAuth →</a>
+      </Button>
     </div>
   );
 }
@@ -181,12 +179,9 @@ function ReauthCard({ status }: { status: string }) {
         A conta Google que estava conectada foi revogada ou os tokens expiraram. Conecte de novo
         pra retomar o sync.
       </p>
-      <a
-        href="/api/calendar/google/connect"
-        className="mt-6 inline-flex items-center gap-2 bg-acid text-ink font-display text-sm uppercase tracking-wider px-7 py-3.5 shadow-[4px_4px_0_var(--jb-fire)] transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[6px_6px_0_var(--jb-fire)]"
-      >
-        Reconectar →
-      </a>
+      <Button asChild variant="primary" className="mt-6">
+        <a href="/api/calendar/google/connect">Reconectar →</a>
+      </Button>
     </div>
   );
 }

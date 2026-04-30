@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { requireAdmin } from '@/server/services/session';
 import { listAllForAdmin } from '@/server/services/testimonials';
 import { Badge } from '@/components/ui/badge';
+import { ButtonLink } from '@/components/ui';
 import { TestimonialListActions } from '@/components/features/testimonials/testimonial-list-actions';
 
 export const metadata: Metadata = {
@@ -35,12 +36,9 @@ export default async function AdminTestimonialsPage() {
             {items.length} {items.length === 1 ? 'depoimento' : 'depoimentos'} no banco
           </p>
         </div>
-        <Link
-          href="/admin/testimonials/new"
-          className="btn-primary inline-flex min-h-[44px] items-center px-5"
-        >
-          <span>+ Novo</span>
-        </Link>
+        <ButtonLink href="/admin/testimonials/new" variant="primary">
+          + Novo
+        </ButtonLink>
       </header>
 
       {items.length === 0 ? (

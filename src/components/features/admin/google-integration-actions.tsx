@@ -3,6 +3,7 @@
 import * as React from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { Button } from '@/components/ui';
 
 /**
  * Botões de "Sincronizar agora" e "Desconectar" usados em
@@ -71,22 +72,26 @@ export function GoogleIntegrationActions() {
 
   return (
     <div className="flex flex-wrap gap-3">
-      <button
+      <Button
         type="button"
+        variant="outlineAcid"
+        size="sm"
         onClick={onSync}
         disabled={syncing}
-        className="border border-acid bg-acid/10 px-5 py-2 font-mono text-[11px] tracking-[0.22em] text-acid uppercase transition-all hover:bg-acid/20 hover:shadow-[3px_3px_0_var(--jb-acid)] disabled:opacity-50"
+        className="font-mono text-[11px] tracking-[0.22em]"
       >
         {syncing ? 'Sincronizando...' : 'Sincronizar agora →'}
-      </button>
-      <button
+      </Button>
+      <Button
         type="button"
+        variant="outlineFire"
+        size="sm"
         onClick={onDisconnect}
         disabled={disconnecting}
-        className="border border-fire bg-transparent px-5 py-2 font-mono text-[11px] tracking-[0.22em] text-fire uppercase transition-all hover:bg-fire/10 disabled:opacity-50"
+        className="font-mono text-[11px] tracking-[0.22em]"
       >
         {disconnecting ? 'Desconectando...' : 'Desconectar'}
-      </button>
+      </Button>
     </div>
   );
 }
