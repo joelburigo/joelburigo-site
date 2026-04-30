@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { Container } from '@/components/patterns/container';
+import { ButtonLink } from '@/components/ui';
 
 export const metadata: Metadata = {
   title: 'Aguardando pagamento · VSS',
@@ -19,9 +19,9 @@ export default function VssAguardandoPage() {
             aprovar, te mando um email com o link de acesso.
           </p>
           <p className="mono text-fg-muted">// Você pode fechar esta página</p>
-          <Link href="/" className="btn-secondary">
+          <ButtonLink href="/" variant="secondary">
             Voltar pra home
-          </Link>
+          </ButtonLink>
         </div>
       </Container>
     </section>

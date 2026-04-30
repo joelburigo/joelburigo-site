@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { Container } from '@/components/patterns/container';
 import { Breadcrumbs } from '@/components/seo/breadcrumbs';
 import { CasesGrid } from '@/components/features/cases/cases-grid';
+import { ButtonLink } from '@/components/ui';
 import { listPublishedTestimonials } from '@/server/services/testimonials';
 
 export const metadata: Metadata = {
@@ -97,14 +97,14 @@ export default async function CasesPage() {
                 conselheiro presente.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link href="/vendas-sem-segredos" className="btn-primary min-h-[48px]">
+                <ButtonLink href="/vendas-sem-segredos" variant="primary" size="lg">
                   <span>Conhecer VSS</span>
                   <span aria-hidden="true">→</span>
-                </Link>
-                <Link href="/advisory" className="btn-fire min-h-[48px]">
+                </ButtonLink>
+                <ButtonLink href="/advisory" variant="fire" size="lg">
                   <span>Aplicar pra Advisory</span>
                   <span aria-hidden="true">→</span>
-                </Link>
+                </ButtonLink>
               </div>
               <div className="text-fg-muted mt-8 border-t border-[var(--jb-hair)] pt-6 font-mono text-[11px] tracking-[0.28em] uppercase">
                 <span className="text-acid">★</span>&nbsp;&nbsp;SISTEMA{' '}

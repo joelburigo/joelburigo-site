@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { ButtonLink } from '@/components/ui';
 import { Container } from '@/components/patterns/container';
 import { getProductInfo } from '../_lib/product-info';
 
@@ -63,12 +63,12 @@ export default async function CheckoutPendentePage({
           )}
 
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-            <Link href="/app/area" className="btn-secondary">
+            <ButtonLink href="/app/area" variant="secondary">
               ACOMPANHAR NA ÁREA →
-            </Link>
-            <Link href={product.productPath} className="btn-secondary">
+            </ButtonLink>
+            <ButtonLink href={product.productPath} variant="secondary">
               Voltar para {product.shortName}
-            </Link>
+            </ButtonLink>
           </div>
 
           <p className="mono text-fg-muted mt-10" style={{ fontSize: '0.8rem' }}>

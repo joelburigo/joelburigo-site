@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Container } from '@/components/patterns/container';
+import { ButtonLink } from '@/components/ui';
 import { contactInfo, getWhatsAppLink } from '@/lib/contact';
 
 export const metadata: Metadata = {
@@ -118,10 +119,10 @@ export default async function AdvisoryObrigadoPage({
                 Faz o diagnóstico gratuito dos 6Ps e descobre onde teu sistema de vendas está
                 travando.
               </p>
-              <Link href="/diagnostico" className="btn-primary min-h-[48px]">
+              <ButtonLink href="/diagnostico" variant="primary" size="lg">
                 <span>Diagnóstico grátis · 10 min</span>
                 <span aria-hidden="true">→</span>
-              </Link>
+              </ButtonLink>
             </div>
 
             <div className="mt-12 grid gap-3 sm:grid-cols-2">
@@ -142,19 +143,19 @@ export default async function AdvisoryObrigadoPage({
             </div>
 
             <div className="mt-12 flex flex-wrap gap-4">
-              <a
+              <ButtonLink
                 href={getWhatsAppLink(
                   'Olá! Enviei aplicação pra Advisory e tenho dúvidas sobre o processo.'
                 )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-secondary min-h-[48px]"
+                external
+                variant="secondary"
+                size="lg"
               >
                 WhatsApp: {contactInfo.phone.display}
-              </a>
-              <Link href="/advisory" className="btn-secondary min-h-[48px]">
+              </ButtonLink>
+              <ButtonLink href="/advisory" variant="secondary" size="lg">
                 Voltar pra Advisory
-              </Link>
+              </ButtonLink>
             </div>
 
             <div className="text-fg-muted mt-12 border-t border-[var(--jb-hair)] pt-8 font-mono text-[11px] tracking-[0.28em] uppercase">

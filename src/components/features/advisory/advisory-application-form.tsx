@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { Button } from '@/components/ui';
 import { MaskedPhoneInput } from '@/components/ui/masked-input';
 import { Turnstile } from '@/components/features/turnstile';
 import { captureAttribution, readAttribution } from '@/lib/attribution';
@@ -591,15 +592,16 @@ export function AdvisoryApplicationForm({ formato }: Props) {
       />
 
       <div className="flex flex-col gap-3">
-        <button
+        <Button
           type="submit"
-          className="btn-primary min-h-[56px]"
+          variant="primary"
+          size="lg"
           disabled={submitting}
           aria-busy={submitting}
         >
           <span>{submitting ? 'Enviando aplicação…' : 'Enviar aplicação'}</span>
           <span aria-hidden="true">→</span>
-        </button>
+        </Button>
         <p className="text-fg-muted font-mono text-[11px] tracking-[0.22em] uppercase">
           ★ Análise direta do Joel · sem fila · sem intermediário
         </p>

@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import Image from 'next/image';
 import { Container } from '@/components/patterns/container';
 import { Breadcrumbs } from '@/components/seo/breadcrumbs';
 import { JornadaTimeline } from '@/components/sections/jornada-timeline';
 import { LicoesDosPps } from '@/components/sections/licoes-dos-pps';
 import { VerdadesDuras } from '@/components/sections/verdades-duras';
+import { ButtonLink } from '@/components/ui';
 
 export const metadata: Metadata = {
   title: 'Sobre | Joel Burigo',
@@ -439,14 +439,15 @@ export default function SobrePage() {
                     <span className="text-acid">▶</span> Garantia 15 dias incondicional
                   </li>
                 </ul>
-                <Link
+                <ButtonLink
                   href="/vendas-sem-segredos"
-                  className="btn-primary mt-8 min-h-[44px]"
+                  variant="primary"
+                  className="mt-8"
                   prefetch
                 >
                   <span>Conhecer VSS</span>
                   <span aria-hidden="true">→</span>
-                </Link>
+                </ButtonLink>
               </article>
 
               <article className="bg-ink-2 border border-[var(--jb-fire-border)] p-8">
@@ -482,10 +483,10 @@ export default function SobrePage() {
                     <span className="text-fire">●</span> Acesso direto comigo
                   </li>
                 </ul>
-                <Link href="/advisory" className="btn-fire mt-8 min-h-[44px]" prefetch>
+                <ButtonLink href="/advisory" variant="fire" className="mt-8" prefetch>
                   <span>Aplicar pra Advisory</span>
                   <span aria-hidden="true">→</span>
-                </Link>
+                </ButtonLink>
               </article>
             </div>
           </div>
@@ -513,13 +514,13 @@ export default function SobrePage() {
               </p>
 
               <div className="mt-10 flex flex-wrap gap-4">
-                <Link href="/vendas-sem-segredos" className="btn-primary min-h-[48px]" prefetch>
+                <ButtonLink href="/vendas-sem-segredos" variant="primary" size="lg" prefetch>
                   <span>Conhecer VSS</span>
                   <span aria-hidden="true">→</span>
-                </Link>
-                <Link href="/diagnostico" className="btn-secondary min-h-[48px]">
+                </ButtonLink>
+                <ButtonLink href="/diagnostico" variant="secondary" size="lg">
                   Diagnóstico grátis
-                </Link>
+                </ButtonLink>
               </div>
 
               <div className="mt-10 border-t border-[var(--jb-hair)] pt-6">

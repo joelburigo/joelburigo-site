@@ -2,6 +2,8 @@
  * Botões de quick-login DEV-only. Renderizado em /entrar.
  * Server component decide visibilidade pela env (NODE_ENV !== 'production').
  */
+import { ButtonLink } from '@/components/ui';
+
 const PROFILES: Array<{ id: 'admin' | 'vss' | 'lead'; label: string; hint: string }> = [
   { id: 'admin', label: 'ADMIN · Joel', hint: 'role=admin · acesso /admin' },
   { id: 'vss', label: 'CLIENTE VSS', hint: 'entitlement vss ativo' },
@@ -16,14 +18,19 @@ export function DevLoginButtons() {
       </div>
       <div className="grid gap-3">
         {PROFILES.map((p) => (
-          <a
+          <ButtonLink
             key={p.id}
             href={`/api/dev/login?as=${p.id}`}
-            className="border-acid hover:bg-acid hover:text-ink flex items-center justify-between border-2 px-4 py-3 font-mono text-[12px] uppercase tracking-[0.18em] transition-colors"
+            external
+            target="_self"
+            rel=""
+            variant="outlineAcid"
+            size="sm"
+            className="flex items-center justify-between border-2 font-mono text-[12px] tracking-[0.18em]"
           >
             <span>{p.label}</span>
             <span className="text-fg-muted text-[10px] normal-case tracking-normal">{p.hint}</span>
-          </a>
+          </ButtonLink>
         ))}
       </div>
       <p className="text-fg-muted mt-4 font-mono text-[10px]">

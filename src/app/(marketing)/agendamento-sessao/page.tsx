@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Container } from '@/components/patterns/container';
+import { ButtonLink } from '@/components/ui';
 
 export const metadata: Metadata = {
   title: 'Agendamento de Sessão Advisory · Joel Burigo',
@@ -55,12 +56,9 @@ export default function AgendamentoSessaoPage() {
                 Se não chegou em poucos minutos, dá uma olhada no spam ou promoções antes de pedir
                 ajuda.
               </p>
-              <Link
-                href="/contato"
-                className="bg-acid text-ink font-display border-ink hover:bg-fire hover:text-cream inline-block border-2 px-6 py-3 text-sm tracking-wider uppercase shadow-[6px_6px_0_var(--jb-fire)] transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_var(--jb-fire)]"
-              >
+              <ButtonLink href="/contato" variant="primary">
                 Não recebi o email
-              </Link>
+              </ButtonLink>
             </div>
 
             <div
@@ -78,12 +76,9 @@ export default function AgendamentoSessaoPage() {
               <p className="text-fg-3 mb-6 font-mono text-[12px] tracking-wide uppercase">
                 Máximo 4 sessões/mês na agenda.
               </p>
-              <Link
-                href="/advisory"
-                className="bg-fire text-ink font-display border-ink hover:bg-acid inline-block border-2 px-6 py-3 text-sm tracking-wider uppercase shadow-[6px_6px_0_var(--jb-acid)] transition-all hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[8px_8px_0_var(--jb-acid)]"
-              >
+              <ButtonLink href="/advisory" variant="fire">
                 Ver Sessão Advisory
-              </Link>
+              </ButtonLink>
             </div>
 
             <div className="mt-10">

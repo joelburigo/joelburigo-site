@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Container } from '@/components/patterns/container';
 import { Breadcrumbs } from '@/components/seo/breadcrumbs';
 import { DiagnosticoWizard } from '@/components/features/diagnostico/diagnostico-wizard';
+import { ButtonLink } from '@/components/ui';
 
 export const metadata: Metadata = {
   title: 'Diagnóstico 6Ps · Raio-X de Vendas | Joel Burigo',
@@ -58,10 +59,10 @@ export default function DiagnosticoRoute() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              <a href="#wizard" className="btn-primary min-h-[48px]">
+              <ButtonLink href="#wizard" variant="primary" size="lg">
                 <span>COMEÇAR</span>
                 <span aria-hidden="true">↓</span>
-              </a>
+              </ButtonLink>
             </div>
 
             {/* Bloco honestidade — voz Joel (copy 1:1 de docs/conteudo/sections/diagnostico-page) */}

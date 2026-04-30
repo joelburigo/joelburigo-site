@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
+import { ButtonLink } from '@/components/ui';
 import { Container } from '@/components/patterns/container';
 import { Logo } from '@/components/ui/logo';
 import { cn } from '@/lib/utils';
@@ -65,9 +66,9 @@ export function Header({ transparent = false, showStatusBar = true }: HeaderProp
           </nav>
 
           <div className="ml-auto hidden items-center gap-6 md:flex">
-            <Link href="/diagnostico" className="btn-primary min-h-[44px]">
+            <ButtonLink href="/diagnostico" variant="primary">
               Diagnóstico <span className="font-mono">→</span>
-            </Link>
+            </ButtonLink>
           </div>
 
           <MobileMenu navLinks={navLinks} secondaryLinks={secondaryLinks} />

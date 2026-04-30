@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Menu } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetClose } from '@/components/ui/sheet';
+import { ButtonLink } from '@/components/ui';
 import { Logo } from '@/components/ui/logo';
 import { cn } from '@/lib/utils';
 
@@ -62,9 +63,9 @@ export function MobileMenu({ navLinks, secondaryLinks }: MobileMenuProps) {
           </nav>
           <div className="mt-4">
             <SheetClose asChild>
-              <Link href="/diagnostico" className="btn-primary">
+              <ButtonLink href="/diagnostico" variant="primary">
                 Diagnóstico <span className="font-mono">→</span>
-              </Link>
+              </ButtonLink>
             </SheetClose>
           </div>
         </div>

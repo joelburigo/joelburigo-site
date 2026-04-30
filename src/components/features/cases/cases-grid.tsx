@@ -4,7 +4,7 @@ import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import type { Testimonial } from '@/server/db/schema';
-import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui';
 
 const filters = [
   { value: 'all', label: 'Todos' },
@@ -44,16 +44,14 @@ export function CasesGrid({ items, r2PublicUrl }: Props) {
           <div className="kicker mb-4">// FILTRAR_POR_PRODUTO</div>
           <div className="flex flex-wrap gap-2">
             {filters.map((f) => (
-              <button
+              <Button
                 key={f.value}
                 onClick={() => setFilter(f.value)}
-                className={cn(
-                  filter === f.value ? 'btn-primary' : 'btn-secondary',
-                  'min-h-[40px] px-5 py-2 text-xs'
-                )}
+                variant={filter === f.value ? 'primary' : 'secondary'}
+                size="sm"
               >
                 {f.label}
-              </button>
+              </Button>
             ))}
           </div>
         </div>

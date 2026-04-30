@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Container } from '@/components/patterns/container';
+import { ButtonLink } from '@/components/ui';
 import { cn, formatDate } from '@/lib/utils';
 import { getPublishedPosts } from '@/server/services/blog';
 import { blogImageUrl } from '@/lib/blog-image';
@@ -82,10 +83,10 @@ export async function BlogPostsSection() {
         )}
 
         <div className={s.blogFooter}>
-          <Link href="/blog" className="btn-secondary">
+          <ButtonLink href="/blog" variant="secondary">
             <span>Ver arquivo completo</span>
             <span aria-hidden="true">→</span>
-          </Link>
+          </ButtonLink>
         </div>
       </Container>
     </section>

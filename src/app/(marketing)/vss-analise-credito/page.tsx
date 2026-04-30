@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { Container } from '@/components/patterns/container';
+import { ButtonLink } from '@/components/ui';
 import { contactInfo, getWhatsAppLink } from '@/lib/contact';
 
 export const metadata: Metadata = {
@@ -104,20 +104,24 @@ export default function VssAnaliseCreditoPage() {
             </div>
 
             <div className="mt-10 flex flex-wrap gap-4">
-              <a
+              <ButtonLink
                 href={getWhatsAppLink(
                   'Olá! Meu pagamento do Vendas Sem Segredos está em análise de crédito. Gostaria de saber o status.'
                 )}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-primary min-h-[48px]"
+                external
+                variant="primary"
+                size="lg"
               >
                 <span>Falar com suporte</span>
                 <span aria-hidden="true">→</span>
-              </a>
-              <Link href="/vendas-sem-segredos#investimento" className="btn-secondary min-h-[48px]">
+              </ButtonLink>
+              <ButtonLink
+                href="/vendas-sem-segredos#investimento"
+                variant="secondary"
+                size="lg"
+              >
                 Tentar outro pagamento
-              </Link>
+              </ButtonLink>
             </div>
 
             <div className="text-fg-muted mt-12 border-t border-[var(--jb-hair)] pt-6 font-mono text-[11px] tracking-[0.22em] uppercase">

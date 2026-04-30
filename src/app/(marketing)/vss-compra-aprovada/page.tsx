@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { Container } from '@/components/patterns/container';
+import { ButtonLink } from '@/components/ui';
 
 export const metadata: Metadata = {
   title: 'Compra aprovada · VSS',
@@ -19,9 +19,9 @@ export default function VssCompraAprovadaPage() {
             copiloto — 10 min pra mapear sua empresa e abrir a Fase 1 do VSS.
           </p>
           <p className="mono text-fg-muted">// Growth CRM: provisionamento em andamento</p>
-          <Link href="/entrar" className="btn-primary">
-            Entrar agora <span className="font-mono">→</span>
-          </Link>
+          <ButtonLink href="/entrar" variant="primary">
+            Entrar agora <span className="font-mono" aria-hidden="true">→</span>
+          </ButtonLink>
         </div>
       </Container>
     </section>

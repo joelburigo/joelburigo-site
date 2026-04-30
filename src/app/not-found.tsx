@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { ButtonLink } from '@/components/ui';
 import { Container } from '@/components/patterns/container';
 
 export default function NotFound() {
@@ -14,12 +14,12 @@ export default function NotFound() {
             diagnóstico.
           </p>
           <div className="flex gap-4">
-            <Link href="/" className="btn-primary">
+            <ButtonLink href="/" variant="primary">
               Ir pra home <span className="font-mono">→</span>
-            </Link>
-            <Link href="/diagnostico" className="btn-secondary">
+            </ButtonLink>
+            <ButtonLink href="/diagnostico" variant="secondary">
               Fazer diagnóstico
-            </Link>
+            </ButtonLink>
           </div>
         </div>
       </Container>

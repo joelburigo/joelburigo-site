@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { Container } from '@/components/patterns/container';
+import { ButtonLink } from '@/components/ui';
 
 export const metadata: Metadata = {
   title: 'Obrigado',
@@ -17,9 +17,9 @@ export default function ObrigadoPage() {
           <p className="body-lg text-fg-2">
             Vou ler com calma e te mando um retorno em até 2 dias úteis.
           </p>
-          <Link href="/" className="btn-primary">
-            Voltar pra home <span className="font-mono">→</span>
-          </Link>
+          <ButtonLink href="/" variant="primary">
+            Voltar pra home <span className="font-mono" aria-hidden="true">→</span>
+          </ButtonLink>
         </div>
       </Container>
     </section>

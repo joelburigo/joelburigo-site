@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import Script from 'next/script';
+import { ButtonLink } from '@/components/ui';
 import { Container } from '@/components/patterns/container';
 import { env } from '@/env';
 import { getProductInfo } from '../_lib/product-info';
@@ -74,12 +74,12 @@ export default async function CheckoutSucessoPage({
             )}
 
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-              <Link href="/app/area" className="btn-primary">
+              <ButtonLink href="/app/area" variant="primary">
                 IR PARA A ÁREA →
-              </Link>
-              <Link href={product.productPath} className="btn-secondary">
+              </ButtonLink>
+              <ButtonLink href={product.productPath} variant="secondary">
                 Voltar para {product.shortName}
-              </Link>
+              </ButtonLink>
             </div>
 
             <p className="mono text-fg-muted mt-10" style={{ fontSize: '0.8rem' }}>

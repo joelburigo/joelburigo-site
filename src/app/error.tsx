@@ -1,7 +1,7 @@
 'use client';
 
-import Link from 'next/link';
 import { useEffect } from 'react';
+import { Button, ButtonLink } from '@/components/ui';
 import { Container } from '@/components/patterns/container';
 
 export default function Error({
@@ -26,12 +26,12 @@ export default function Error({
           <p className="body-lg text-fg-3">Anotei o erro. Tenta de novo ou volta pra home.</p>
           {error.digest && <p className="mono text-fg-muted">Ref: {error.digest}</p>}
           <div className="flex gap-4">
-            <button onClick={reset} className="btn-fire">
+            <Button onClick={reset} variant="fire">
               Tentar de novo <span className="font-mono">→</span>
-            </button>
-            <Link href="/" className="btn-secondary">
+            </Button>
+            <ButtonLink href="/" variant="secondary">
               Home
-            </Link>
+            </ButtonLink>
           </div>
         </div>
       </Container>

@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { Container } from '@/components/patterns/container';
+import { ButtonLink } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import s from './hero-section.module.css';
 
@@ -34,14 +34,14 @@ export function HeroSection() {
             </p>
 
             <div className={s.heroCtas}>
-              <Link href="/vendas-sem-segredos" className="btn-primary" prefetch>
+              <ButtonLink href="/vendas-sem-segredos" variant="primary" prefetch>
                 <span>Ver VSS completo</span>
                 <span aria-hidden="true">→</span>
-              </Link>
-              <Link href="/advisory" className="btn-secondary">
+              </ButtonLink>
+              <ButtonLink href="/advisory" variant="secondary">
                 <span>Falar com Joel (Advisory)</span>
                 <span aria-hidden="true">→</span>
-              </Link>
+              </ButtonLink>
             </div>
 
             <div className={cn('mono', s.heroSignature)}>

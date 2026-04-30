@@ -1,9 +1,9 @@
-import Link from 'next/link';
 import { Container } from '@/components/patterns/container';
 import { Breadcrumbs, type BreadcrumbItem } from '@/components/seo/breadcrumbs';
 import { CheckoutButton } from '@/components/features/payments/checkout-button';
 import { TestimonialCarousel } from '@/components/features/testimonials/testimonial-carousel';
 import { DoubtsPopup } from '@/components/features/doubts/doubts-popup';
+import { ButtonLink } from '@/components/ui';
 import { getConfig } from '@/server/services/config';
 
 interface VssPageProps {
@@ -268,13 +268,14 @@ export async function VssPage({ breadcrumbItems }: VssPageProps) {
                 </span>
               </div>
 
-              <Link
+              <ButtonLink
                 href="#problema"
-                className="btn-primary self-start"
-                style={{ minHeight: '48px' }}
+                variant="primary"
+                size="lg"
+                className="self-start"
               >
-                Como funciona <span className="font-mono">↓</span>
-              </Link>
+                Como funciona <span className="font-mono" aria-hidden="true">↓</span>
+              </ButtonLink>
             </div>
 
             {/* Terminal window — mantém o diagnóstico 6Ps */}
@@ -918,9 +919,9 @@ export async function VssPage({ breadcrumbItems }: VssPageProps) {
                   variant="fire"
                   size="lg"
                 />
-                <Link href="/diagnostico" className="btn-secondary">
+                <ButtonLink href="/diagnostico" variant="secondary">
                   Diagnóstico 6Ps grátis
-                </Link>
+                </ButtonLink>
               </div>
 
               <div className="mono text-fg-muted mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs">
@@ -1004,9 +1005,9 @@ export async function VssPage({ breadcrumbItems }: VssPageProps) {
           </div>
 
           <div className="mt-10 flex justify-center">
-            <Link href="#cta-final" className="btn-primary" style={{ minHeight: '48px' }}>
-              Convencido? Entrar agora <span className="font-mono">↑</span>
-            </Link>
+            <ButtonLink href="#cta-final" variant="primary" size="lg">
+              Convencido? Entrar agora <span className="font-mono" aria-hidden="true">↑</span>
+            </ButtonLink>
           </div>
         </Container>
       </section>

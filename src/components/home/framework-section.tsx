@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { Container } from '@/components/patterns/container';
+import { ButtonLink } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import s from './framework-section.module.css';
 
@@ -85,10 +85,10 @@ export function FrameworkSection() {
             <span className="text-acid">★</span>&nbsp;&nbsp;SISTEMA{' '}
             <span className="text-fire">&gt;</span> IMPROVISO
           </p>
-          <Link href="/framework-6ps" className="btn-primary">
+          <ButtonLink href="/framework-6ps" variant="primary">
             <span>Ver framework completo</span>
             <span aria-hidden="true">→</span>
-          </Link>
+          </ButtonLink>
         </div>
       </Container>
     </section>

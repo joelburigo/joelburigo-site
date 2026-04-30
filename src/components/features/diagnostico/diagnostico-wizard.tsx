@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Turnstile } from '@/components/features/turnstile';
+import { Button } from '@/components/ui';
 import { captureAttribution, readAttribution } from '@/lib/attribution';
 
 // ---------- Tipos & dados ----------
@@ -422,34 +423,29 @@ export function DiagnosticoWizard() {
 
       {/* Navegação */}
       <div className="flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <button
+        <Button
           type="button"
           onClick={prev}
           disabled={step === 0 || submitting}
-          className="border border-[var(--jb-hair-strong)] bg-transparent px-6 py-3 font-mono text-[11px] tracking-[0.22em] text-cream uppercase transition-colors hover:border-[var(--jb-acid)] disabled:cursor-not-allowed disabled:opacity-30"
+          variant="secondary"
         >
           ← ANTERIOR
-        </button>
+        </Button>
         {step < TOTAL_STEPS - 1 ? (
-          <button
-            type="button"
-            onClick={next}
-            disabled={submitting}
-            className="btn-primary min-h-[48px]"
-          >
+          <Button type="button" onClick={next} disabled={submitting} variant="primary">
             <span>PRÓXIMO</span>
             <span aria-hidden="true">→</span>
-          </button>
+          </Button>
         ) : (
-          <button
+          <Button
             type="submit"
             disabled={submitting || !turnstileToken}
             aria-busy={submitting}
-            className="btn-primary min-h-[48px] disabled:cursor-not-allowed disabled:opacity-40"
+            variant="primary"
           >
             <span>{submitting ? 'PROCESSANDO...' : 'VER MEU RESULTADO'}</span>
             <span aria-hidden="true">→</span>
-          </button>
+          </Button>
         )}
       </div>
     </form>

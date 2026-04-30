@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { ButtonLink } from '@/components/ui';
 import { Container } from '@/components/patterns/container';
 import { Breadcrumbs } from '@/components/seo/breadcrumbs';
 import { ShareButton } from '@/components/features/diagnostico/share-button';
@@ -278,14 +278,15 @@ export default async function DiagnosticoResultadoPage({ searchParams }: PagePro
                   <strong className="text-cream">140+ MPEs</strong> — agora pra você implementar
                   com autonomia.
                 </p>
-                <Link
+                <ButtonLink
                   href={`/vendas-sem-segredos?from=diagnostico&id=${encodeURIComponent(sub.id)}`}
-                  className="btn-primary min-h-[48px]"
+                  variant="primary"
+                  size="lg"
                   prefetch
                 >
                   <span>DESTRAVAR COM O VSS · R$ 1.997</span>
                   <span aria-hidden="true">→</span>
-                </Link>
+                </ButtonLink>
               </div>
 
               <div className="bg-ink-2 border border-[var(--jb-fire-border)] p-8">
@@ -296,10 +297,10 @@ export default async function DiagnosticoResultadoPage({ searchParams }: PagePro
                 <p className="text-fg-2 mb-6 font-sans">
                   Momento crítico que pede conselheiro presente? Advisory é o caminho.
                 </p>
-                <Link href="/advisory" className="btn-fire min-h-[44px]">
+                <ButtonLink href="/advisory" variant="fire">
                   <span>Ver Advisory</span>
                   <span aria-hidden="true">→</span>
-                </Link>
+                </ButtonLink>
               </div>
             </div>
 

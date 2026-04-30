@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { Container } from '@/components/patterns/container';
+import { ButtonLink } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import s from './pathways-section.module.css';
 
@@ -97,10 +97,14 @@ export function PathwaysSection() {
                 <div className={cn('mono', s.pwPriceNote)}>{p.priceNote}</div>
               </div>
 
-              <Link href={p.link} className={cn(p.feat ? 'btn-primary' : 'btn-secondary', s.pwCta)}>
+              <ButtonLink
+                href={p.link}
+                variant={p.feat ? 'primary' : 'secondary'}
+                className={s.pwCta}
+              >
                 <span>{p.cta}</span>
                 <span aria-hidden="true">→</span>
-              </Link>
+              </ButtonLink>
 
               <div className={cn('mono', s.pwIdeal)}>
                 Pra quem: <span className={s.pwIdealVal}>{p.ideal}</span>

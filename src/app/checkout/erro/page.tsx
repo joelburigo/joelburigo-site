@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
+import { ButtonLink } from '@/components/ui';
 import { Container } from '@/components/patterns/container';
 import { getProductInfo } from '../_lib/product-info';
 
@@ -58,12 +58,16 @@ export default async function CheckoutErroPage({
           )}
 
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-            <Link href={product.productPath} className="btn-fire">
+            <ButtonLink href={product.productPath} variant="fire">
               TENTAR DE NOVO →
-            </Link>
-            <a href="mailto:joel@joelburigo.com.br?subject=Erro%20no%20checkout" className="btn-secondary">
+            </ButtonLink>
+            <ButtonLink
+              href="mailto:joel@joelburigo.com.br?subject=Erro%20no%20checkout"
+              external
+              variant="secondary"
+            >
               Falar com o Joel
-            </a>
+            </ButtonLink>
           </div>
 
           <p className="mono text-fg-muted mt-10" style={{ fontSize: '0.8rem' }}>

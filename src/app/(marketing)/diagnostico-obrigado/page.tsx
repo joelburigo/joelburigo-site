@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Container } from '@/components/patterns/container';
+import { ButtonLink } from '@/components/ui';
 
 export const metadata: Metadata = {
   title: 'Diagnóstico concluído | Joel Burigo',
@@ -107,10 +108,10 @@ export default function DiagnosticoObrigadoPage() {
                 O diagnóstico que você fez é baseado na mesma base aplicada em 140+ empresas. Veja
                 como funciona o VSS completo.
               </p>
-              <Link href="/vendas-sem-segredos" className="btn-primary min-h-[48px]" prefetch>
+              <ButtonLink href="/vendas-sem-segredos" variant="primary" size="lg" prefetch>
                 <span>Conhecer VSS</span>
                 <span aria-hidden="true">→</span>
-              </Link>
+              </ButtonLink>
             </div>
 
             <div className="mt-12 grid gap-3 sm:grid-cols-2">

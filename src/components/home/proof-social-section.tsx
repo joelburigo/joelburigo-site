@@ -1,5 +1,5 @@
-import Link from 'next/link';
 import { Container } from '@/components/patterns/container';
+import { ButtonLink } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import { cases } from '@/data/cases';
 import s from './proof-social-section.module.css';
@@ -96,10 +96,10 @@ export function ProofSocialSection() {
         </div>
 
         <div className={s.proofFooter}>
-          <Link href="/cases" className="btn-secondary">
+          <ButtonLink href="/cases" variant="secondary">
             <span>Ver todos os cases</span>
             <span aria-hidden="true">→</span>
-          </Link>
+          </ButtonLink>
         </div>
       </Container>
     </section>

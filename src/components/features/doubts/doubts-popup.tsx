@@ -9,6 +9,7 @@ import {
   DialogDescription,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Button } from '@/components/ui';
 import { MaskedPhoneInput } from '@/components/ui/masked-input';
 import { Turnstile } from '@/components/features/turnstile';
 import { captureAttribution, readAttribution } from '@/lib/attribution';
@@ -203,15 +204,17 @@ export function DoubtsPopup(props: DoubtsPopupProps) {
 
   return (
     <>
-      <button
+      <Button
         type="button"
         onClick={() => setOpen(true)}
-        className={cn('btn-primary min-h-[64px] !py-5 md:!py-6', className)}
+        variant="primary"
+        size="xl"
+        className={className}
         aria-haspopup="dialog"
       >
         <span>{triggerLabel}</span>
         <span aria-hidden="true">→</span>
-      </button>
+      </Button>
 
       <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogContent
@@ -241,14 +244,15 @@ export function DoubtsPopup(props: DoubtsPopupProps) {
                   </p>
                 </div>
               </DialogDescription>
-              <button
+              <Button
                 type="button"
                 onClick={() => handleOpenChange(false)}
-                className="btn-primary mt-2 min-h-[48px] self-start"
+                variant="primary"
+                className="mt-2 self-start"
               >
                 <span>Fechar</span>
                 <span aria-hidden="true">→</span>
-              </button>
+              </Button>
             </div>
           ) : (
             <form onSubmit={onSubmit} noValidate className="flex flex-col gap-5">
@@ -377,15 +381,15 @@ export function DoubtsPopup(props: DoubtsPopupProps) {
               />
 
               <div className="flex flex-col gap-3">
-                <button
+                <Button
                   type="submit"
-                  className="btn-primary min-h-[48px]"
+                  variant="primary"
                   disabled={submitting}
                   aria-busy={submitting}
                 >
                   <span>{submitting ? 'Enviando...' : 'Mandar dúvida'}</span>
                   <span aria-hidden="true">→</span>
-                </button>
+                </Button>
                 <p className="text-fg-muted font-mono text-[11px] tracking-[0.22em] uppercase">
                   * Joel responde pessoalmente em até 24h
                 </p>

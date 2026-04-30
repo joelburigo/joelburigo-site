@@ -1,6 +1,6 @@
-import Link from 'next/link';
 import Image from 'next/image';
 import { Container } from '@/components/patterns/container';
+import { ButtonLink } from '@/components/ui';
 import { cn } from '@/lib/utils';
 import s from './quem-sou-section.module.css';
 
@@ -81,10 +81,10 @@ export function QuemSouSection() {
               </div>
             </div>
 
-            <Link href="/sobre" className={cn('btn-secondary', s.qsCta)}>
+            <ButtonLink href="/sobre" variant="secondary" className={s.qsCta}>
               <span>História completa</span>
               <span aria-hidden="true">→</span>
-            </Link>
+            </ButtonLink>
           </div>
         </div>
       </Container>

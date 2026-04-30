@@ -5,6 +5,7 @@ import { Breadcrumbs, type BreadcrumbItem } from '@/components/seo/breadcrumbs';
 import { CheckoutButton } from '@/components/features/payments/checkout-button';
 import { TestimonialCarousel } from '@/components/features/testimonials/testimonial-carousel';
 import { DoubtsPopup } from '@/components/features/doubts/doubts-popup';
+import { ButtonLink } from '@/components/ui';
 import { getConfig } from '@/server/services/config';
 import { listPublishedTestimonials } from '@/server/services/testimonials';
 
@@ -163,9 +164,9 @@ export async function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
               </div>
 
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <a href="#formatos" className="btn-primary" style={{ minHeight: '48px' }}>
-                  Ver formatos <span className="font-mono">↓</span>
-                </a>
+                <ButtonLink href="#formatos" variant="primary" size="lg">
+                  Ver formatos <span className="font-mono" aria-hidden="true">↓</span>
+                </ButtonLink>
                 <span className="mono text-fg-muted">★ resposta direta do Joel</span>
               </div>
             </div>
@@ -620,13 +621,14 @@ export async function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
                 </ul>
               </div>
               <div className="mt-auto" style={{ width: '100%' }}>
-                <a
+                <ButtonLink
                   href="/advisory-aplicacao?formato=sprint"
-                  className="btn-primary block w-full text-center"
-                  style={{ minHeight: '48px' }}
+                  variant="primary"
+                  size="lg"
+                  className="w-full"
                 >
-                  Aplicar pra Sprint <span className="font-mono">→</span>
-                </a>
+                  Aplicar pra Sprint <span className="font-mono" aria-hidden="true">→</span>
+                </ButtonLink>
                 <p className="mono text-fg-muted mt-3" style={{ fontSize: '0.7rem' }}>
                   ★ triagem mútua · vagas limitadas
                 </p>
@@ -710,13 +712,14 @@ export async function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
                 </ul>
               </div>
               <div className="mt-auto" style={{ width: '100%' }}>
-                <a
+                <ButtonLink
                   href="/advisory-aplicacao?formato=conselho"
-                  className="btn-primary block w-full text-center"
-                  style={{ minHeight: '48px' }}
+                  variant="primary"
+                  size="lg"
+                  className="w-full"
                 >
-                  Aplicar pro Conselho <span className="font-mono">→</span>
-                </a>
+                  Aplicar pro Conselho <span className="font-mono" aria-hidden="true">→</span>
+                </ButtonLink>
                 <p className="mono text-fg-muted mt-3" style={{ fontSize: '0.7rem' }}>
                   ★ triagem mútua · vagas limitadas
                 </p>
