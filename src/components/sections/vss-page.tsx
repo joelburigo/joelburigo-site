@@ -148,6 +148,34 @@ const objecoes = [
     q: 'E se não for pra mim?',
     a: '15 dias de garantia incondicional. Testa, não se adaptou — reembolso 100%. Sem perguntas, sem fricção. Risco zero.',
   },
+  {
+    q: 'O acesso é vitalício mesmo? Sem mensalidade?',
+    a: 'Pagamento único de R$ 1.997 (à vista ou 12×). Acesso vitalício ao playbook + Growth CRM (12 meses incluído) + 48 mentorias ao vivo (rolling 12 meses). Sem mensalidade, sem renovação, sem upsell escondido.',
+  },
+  {
+    q: 'Quando começam as mentorias? Sou obrigado a ir em todas?',
+    a: 'Mentorias rodam ao vivo toda semana — você entra na próxima após a compra. Não é obrigado a ir em todas; ficam gravadas, acessa quando quiser. As 48 sessões são pra cobrir os 6Ps em profundidade ao longo de 12 meses.',
+  },
+  {
+    q: 'O Growth CRM já vem configurado?',
+    a: 'Vem com setup-base (pipelines VSS + estágios + automações iniciais). Na Fase 2 (Infraestrutura) você customiza pro seu nicho com mentor ao vivo guiando. 12 meses de uso incluso, depois você decide se renova.',
+  },
+  {
+    q: 'Preciso ter equipe? Funciona sozinho?',
+    a: 'Funciona sozinho — o sistema VSS foi desenhado pra dono operar nas Fases 1–4. P6 (Pessoas) entra quando você está pronto pra contratar (geralmente Fase 7+, pós-90d). Não obriga você a ter time.',
+  },
+  {
+    q: 'Quanto tempo até ver resultado?',
+    a: 'Primeiras vendas estruturadas: SEM 13 (marco do Sistema). Resultado consolidado de previsibilidade: 90 dias. Crescimento composto: 6–12 meses. Não vendo milagre — vendo sistema. Quem chega no marco SEM 13, não sai mais.',
+  },
+  {
+    q: 'Posso pagar PIX/boleto ou só cartão?',
+    a: 'Cartão (até 12×) ou PIX à vista — checkout Mercado Pago. Boleto não está habilitado pra ticket alto. PIX libera acesso instantâneo; cartão libera após confirmação (geralmente em segundos).',
+  },
+  {
+    q: 'O que acontece se eu cancelar dentro dos 15 dias?',
+    a: 'Reembolso integral, sem perguntas. Você manda email pra suporte, devolvemos em até 5 dias úteis. Acesso é revogado depois da confirmação. Sem fricção, sem retenção forçada.',
+  },
 ];
 
 export const revalidate = 300;
@@ -556,12 +584,6 @@ export async function VssPage({ breadcrumbItems }: VssPageProps) {
               </article>
             ))}
           </div>
-
-          <div className="mt-10 flex justify-center">
-            <Link href="#investimento" className="btn-secondary" style={{ minHeight: '48px' }}>
-              Ver investimento <span className="font-mono">↓</span>
-            </Link>
-          </div>
         </Container>
       </section>
 
@@ -635,13 +657,103 @@ export async function VssPage({ breadcrumbItems }: VssPageProps) {
         </Container>
       </section>
 
-      {/* 07 — STACK / INVESTIMENTO */}
+      {/* 07 — PROVA SOCIAL (subiu — antes do preço, gera prova primeiro) */}
+      {testimonials.length > 0 && (
+        <section id="prova-social" className="bg-ink-2 relative scroll-mt-24 py-12">
+          <Container>
+            <div className="mx-auto mb-4 max-w-3xl">
+              <div className="kicker mb-4">// 07_PROVA_SOCIAL</div>
+              <h2
+                className="font-display text-cream mb-2"
+                style={{
+                  fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
+                  lineHeight: '0.95',
+                  letterSpacing: '-0.035em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                Quem já implementou <span className="text-acid">conta</span>.
+              </h2>
+            </div>
+            <TestimonialCarousel productSlug="vss" featured limit={6} />
+          </Container>
+        </section>
+      )}
+
+      {/* 08 — PRA QUEM É / NÃO É */}
+      <section id="pra-quem-e" className="bg-ink relative scroll-mt-24 overflow-hidden py-24">
+        <div className="grid-overlay" />
+        <Container>
+          <div className="mx-auto max-w-5xl">
+            <div className="mb-12">
+              <div className="kicker mb-4">// 08_FIT</div>
+              <h2
+                className="font-display text-cream"
+                style={{
+                  fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
+                  lineHeight: '0.95',
+                  letterSpacing: '-0.035em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                VSS <span className="text-acid">é pra você</span>. VSS{' '}
+                <span className="text-fire">não é pra você</span>.
+              </h2>
+            </div>
+
+            <div className="grid gap-0 border border-white/10 md:grid-cols-2">
+              <div
+                className="border-b border-white/10 p-8 md:border-r md:border-b-0"
+                style={{ background: 'linear-gradient(180deg, rgba(198,255,0,0.04), transparent)' }}
+              >
+                <div className="mono text-acid mb-5">▲ É PRA VOCÊ SE</div>
+                <ul className="space-y-4">
+                  {paraQuem.map((item) => (
+                    <li
+                      key={item}
+                      className="text-cream flex items-start gap-3 font-sans"
+                      style={{ fontSize: '1rem', lineHeight: '1.45' }}
+                    >
+                      <span className="text-acid">✓</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div
+                className="p-8"
+                style={{ background: 'linear-gradient(180deg, rgba(255,59,15,0.04), transparent)' }}
+              >
+                <div className="mono text-fire mb-5">▼ NÃO É PRA VOCÊ SE</div>
+                <ul className="space-y-4">
+                  {naoEPara.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-3 font-sans"
+                      style={{
+                        fontSize: '1rem',
+                        lineHeight: '1.45',
+                        color: 'rgba(245, 241, 232, 0.8)',
+                      }}
+                    >
+                      <span className="text-fire">✗</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* 09 — STACK / INVESTIMENTO (late price reveal — junto ao fechamento) */}
       <section id="investimento" className="bg-ink relative scroll-mt-24 overflow-hidden py-24">
         <div className="grid-overlay" />
         <Container>
           <div className="mx-auto max-w-4xl">
             <div className="mb-12">
-              <div className="kicker mb-4">// 07_STACK · O QUE VOCÊ LEVA</div>
+              <div className="kicker mb-4">// 09_STACK · O QUE VOCÊ LEVA</div>
               <h2
                 className="font-display text-cream"
                 style={{
@@ -734,166 +846,15 @@ export async function VssPage({ breadcrumbItems }: VssPageProps) {
         </Container>
       </section>
 
-      {/* 08 — PROVA SOCIAL */}
-      {testimonials.length > 0 && (
-        <section id="prova-social" className="bg-ink-2 relative scroll-mt-24 py-12">
-          <Container>
-            <div className="mx-auto mb-4 max-w-3xl">
-              <div className="kicker mb-4">// 08_PROVA_SOCIAL</div>
-              <h2
-                className="font-display text-cream mb-2"
-                style={{
-                  fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
-                  lineHeight: '0.95',
-                  letterSpacing: '-0.035em',
-                  textTransform: 'uppercase',
-                }}
-              >
-                Quem já implementou <span className="text-acid">conta</span>.
-              </h2>
-            </div>
-            <TestimonialCarousel productSlug="vss" featured limit={6} />
-            <div className="mt-6 flex justify-center">
-              <Link href="#investimento" className="btn-secondary" style={{ minHeight: '48px' }}>
-                Ver investimento <span className="font-mono">↓</span>
-              </Link>
-            </div>
-          </Container>
-        </section>
-      )}
-
-      {/* 09 — PRA QUEM É / NÃO É */}
-      <section id="pra-quem-e" className="bg-ink relative scroll-mt-24 overflow-hidden py-24">
-        <div className="grid-overlay" />
-        <Container>
-          <div className="mx-auto max-w-5xl">
-            <div className="mb-12">
-              <div className="kicker mb-4">// 09_FIT</div>
-              <h2
-                className="font-display text-cream"
-                style={{
-                  fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
-                  lineHeight: '0.95',
-                  letterSpacing: '-0.035em',
-                  textTransform: 'uppercase',
-                }}
-              >
-                VSS <span className="text-acid">é pra você</span>. VSS{' '}
-                <span className="text-fire">não é pra você</span>.
-              </h2>
-            </div>
-
-            <div className="grid gap-0 border border-white/10 md:grid-cols-2">
-              <div
-                className="border-b border-white/10 p-8 md:border-r md:border-b-0"
-                style={{ background: 'linear-gradient(180deg, rgba(198,255,0,0.04), transparent)' }}
-              >
-                <div className="mono text-acid mb-5">▲ É PRA VOCÊ SE</div>
-                <ul className="space-y-4">
-                  {paraQuem.map((item) => (
-                    <li
-                      key={item}
-                      className="text-cream flex items-start gap-3 font-sans"
-                      style={{ fontSize: '1rem', lineHeight: '1.45' }}
-                    >
-                      <span className="text-acid">✓</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div
-                className="p-8"
-                style={{ background: 'linear-gradient(180deg, rgba(255,59,15,0.04), transparent)' }}
-              >
-                <div className="mono text-fire mb-5">▼ NÃO É PRA VOCÊ SE</div>
-                <ul className="space-y-4">
-                  {naoEPara.map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-3 font-sans"
-                      style={{
-                        fontSize: '1rem',
-                        lineHeight: '1.45',
-                        color: 'rgba(245, 241, 232, 0.8)',
-                      }}
-                    >
-                      <span className="text-fire">✗</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* 10 — OBJEÇÕES */}
-      <section id="objecoes" className="bg-ink-2 relative scroll-mt-24 py-24">
-        <Container>
-          <div className="mx-auto mb-14 max-w-3xl">
-            <div className="kicker mb-4">// 10_OBJEÇÕES</div>
-            <h2
-              className="font-display text-cream mb-6"
-              style={{
-                fontSize: 'clamp(1.75rem, 4.5vw, 3rem)',
-                lineHeight: '0.95',
-                letterSpacing: '-0.035em',
-                textTransform: 'uppercase',
-              }}
-            >
-              As 6 perguntas que <span className="text-acid">todo mundo</span> faz
-            </h2>
-          </div>
-
-          <div className="mx-auto max-w-5xl border border-white/10">
-            {objecoes.map((o, i) => (
-              <details
-                key={o.q}
-                className="group"
-                style={{ borderTop: i === 0 ? '0' : '1px solid var(--jb-hair)' }}
-              >
-                <summary
-                  className="font-display text-cream flex cursor-pointer items-center justify-between gap-4 p-6 md:p-8"
-                  style={{
-                    fontSize: 'clamp(1rem, 2vw, 1.15rem)',
-                    letterSpacing: '-0.02em',
-                    textTransform: 'uppercase',
-                    listStyle: 'none',
-                  }}
-                >
-                  <span>{o.q}</span>
-                  <span
-                    className="text-acid group-open:rotate-45"
-                    style={{ transition: 'transform 180ms' }}
-                  >
-                    +
-                  </span>
-                </summary>
-                <div className="px-6 pb-6 md:px-8 md:pb-8">
-                  <p
-                    className="font-sans"
-                    style={{ fontSize: '1rem', lineHeight: '1.55', color: 'rgba(245, 241, 232, 0.85)' }}
-                  >
-                    {o.a}
-                  </p>
-                </div>
-              </details>
-            ))}
-          </div>
-        </Container>
-      </section>
-
-      {/* 11 — GARANTIA */}
-      <section id="garantia" className="bg-ink relative scroll-mt-24 overflow-hidden py-24">
+      {/* 10 — GARANTIA */}
+      <section id="garantia" className="bg-ink-2 relative scroll-mt-24 overflow-hidden py-24">
         <div className="grid-overlay" />
         <Container>
           <div
             className="border-acid mx-auto max-w-4xl border-2 p-10 text-center md:p-16"
             style={{ background: 'linear-gradient(180deg, rgba(198,255,0,0.10), rgba(198,255,0,0.02))' }}
           >
-            <div className="kicker mb-5">// 11_GARANTIA</div>
+            <div className="kicker mb-5">// 10_GARANTIA</div>
             <div
               className="font-display text-acid mb-4"
               style={{ fontSize: 'clamp(3rem, 8vw, 5.5rem)', lineHeight: '0.9', letterSpacing: '-0.045em' }}
@@ -918,23 +879,19 @@ export async function VssPage({ breadcrumbItems }: VssPageProps) {
               Não funcionou? Reembolso 100%. Sem perguntas, sem fricção. O risco é nosso —
               confiança total porque a base do método já foi aplicada em 140+ empresas.
             </p>
-            <div className="mt-8 flex justify-center">
-              <Link href="#investimento" className="btn-secondary" style={{ minHeight: '48px' }}>
-                Ver investimento <span className="font-mono">↓</span>
-              </Link>
-            </div>
           </div>
         </Container>
       </section>
 
-      {/* 12 — CTA FINAL */}
-      <section id="cta-final" className="bg-ink-2 relative scroll-mt-24 py-24">
+      {/* 11 — CTA FINAL */}
+      <section id="cta-final" className="bg-ink relative scroll-mt-24 overflow-hidden py-24">
+        <div className="grid-overlay" />
         <Container>
           <div
             className="border-acid mx-auto max-w-4xl border-2 p-10 md:p-16"
             style={{ background: 'linear-gradient(180deg, rgba(198,255,0,0.10), #050505)' }}
           >
-            <div className="kicker mb-5">// 12_DECISÃO</div>
+            <div className="kicker mb-5">// 11_DECISÃO</div>
             <h2
               className="font-display text-cream mb-6"
               style={{
@@ -985,7 +942,76 @@ export async function VssPage({ breadcrumbItems }: VssPageProps) {
         </Container>
       </section>
 
-      {/* 13 — DÚVIDAS */}
+      {/* 12 — FAQ COMPLETA (último convite — quebra objeções remanescentes) */}
+      <section id="objecoes" className="bg-ink-2 relative scroll-mt-24 py-24">
+        <Container>
+          <div className="mx-auto mb-14 max-w-3xl">
+            <div className="kicker mb-4">// 12_FAQ_COMPLETA</div>
+            <h2
+              className="font-display text-cream mb-6"
+              style={{
+                fontSize: 'clamp(1.75rem, 4.5vw, 3rem)',
+                lineHeight: '0.95',
+                letterSpacing: '-0.035em',
+                textTransform: 'uppercase',
+              }}
+            >
+              Ainda <span className="text-acid">na dúvida</span>? Lê isso aqui.
+            </h2>
+            <p
+              className="font-sans"
+              style={{ fontSize: '1rem', lineHeight: '1.55', color: 'rgba(245, 241, 232, 0.75)' }}
+            >
+              Compilei {objecoes.length} perguntas que quase todo mundo faz antes de entrar. Se a sua
+              não tá aqui, tem o popup logo abaixo — eu respondo direto.
+            </p>
+          </div>
+
+          <div className="mx-auto max-w-5xl border border-white/10">
+            {objecoes.map((o, i) => (
+              <details
+                key={o.q}
+                className="group"
+                style={{ borderTop: i === 0 ? '0' : '1px solid var(--jb-hair)' }}
+              >
+                <summary
+                  className="font-display text-cream flex cursor-pointer items-center justify-between gap-4 p-6 md:p-8"
+                  style={{
+                    fontSize: 'clamp(1rem, 2vw, 1.15rem)',
+                    letterSpacing: '-0.02em',
+                    textTransform: 'uppercase',
+                    listStyle: 'none',
+                  }}
+                >
+                  <span>{o.q}</span>
+                  <span
+                    className="text-acid group-open:rotate-45"
+                    style={{ transition: 'transform 180ms' }}
+                  >
+                    +
+                  </span>
+                </summary>
+                <div className="px-6 pb-6 md:px-8 md:pb-8">
+                  <p
+                    className="font-sans"
+                    style={{ fontSize: '1rem', lineHeight: '1.55', color: 'rgba(245, 241, 232, 0.85)' }}
+                  >
+                    {o.a}
+                  </p>
+                </div>
+              </details>
+            ))}
+          </div>
+
+          <div className="mt-10 flex justify-center">
+            <Link href="#cta-final" className="btn-primary" style={{ minHeight: '48px' }}>
+              Convencido? Entrar agora <span className="font-mono">↑</span>
+            </Link>
+          </div>
+        </Container>
+      </section>
+
+      {/* 13 — DÚVIDAS (suporte fallback se nem FAQ resolveu) */}
       <section id="duvidas" className="bg-ink relative scroll-mt-24 overflow-hidden py-24">
         <div className="grid-overlay" />
         <Container>
