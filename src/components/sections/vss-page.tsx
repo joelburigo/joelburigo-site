@@ -747,13 +747,17 @@ export async function VssPage({ breadcrumbItems }: VssPageProps) {
         </Container>
       </section>
 
-      {/* 09 — STACK / INVESTIMENTO (late price reveal — junto ao fechamento) */}
-      <section id="investimento" className="bg-ink relative scroll-mt-24 overflow-hidden py-24">
+      {/* 09 — FECHAMENTO (stack + garantia + CTA num único bloco contínuo) */}
+      <section
+        id="investimento"
+        className="bg-ink relative scroll-mt-24 overflow-hidden py-24"
+      >
         <div className="grid-overlay" />
         <Container>
           <div className="mx-auto max-w-4xl">
+            {/* Header */}
             <div className="mb-12">
-              <div className="kicker mb-4">// 09_STACK · O QUE VOCÊ LEVA</div>
+              <div className="kicker mb-4">// 09_INVESTIMENTO · O QUE VOCÊ LEVA</div>
               <h2
                 className="font-display text-cream"
                 style={{
@@ -768,6 +772,7 @@ export async function VssPage({ breadcrumbItems }: VssPageProps) {
               </h2>
             </div>
 
+            {/* Tabela stack + investimento */}
             <div className="border border-white/10">
               {stack.map((s, i) => (
                 <div
@@ -842,111 +847,106 @@ export async function VssPage({ breadcrumbItems }: VssPageProps) {
                 </div>
               </div>
             </div>
-          </div>
-        </Container>
-      </section>
 
-      {/* 10 — GARANTIA */}
-      <section id="garantia" className="bg-ink-2 relative scroll-mt-24 overflow-hidden py-24">
-        <div className="grid-overlay" />
-        <Container>
-          <div
-            className="border-acid mx-auto max-w-4xl border-2 p-10 text-center md:p-16"
-            style={{ background: 'linear-gradient(180deg, rgba(198,255,0,0.10), rgba(198,255,0,0.02))' }}
-          >
-            <div className="kicker mb-5">// 10_GARANTIA</div>
+            {/* Garantia inline (badge antes do CTA — reduz risco percebido) */}
             <div
-              className="font-display text-acid mb-4"
-              style={{ fontSize: 'clamp(3rem, 8vw, 5.5rem)', lineHeight: '0.9', letterSpacing: '-0.045em' }}
-            >
-              {guaranteeDays} DIAS
-            </div>
-            <h2
-              className="font-display text-cream mb-6"
+              id="garantia"
+              className="border-acid mt-10 border-2 p-8 text-center"
               style={{
-                fontSize: 'clamp(1.5rem, 3.5vw, 2.25rem)',
-                lineHeight: '0.95',
-                letterSpacing: '-0.035em',
-                textTransform: 'uppercase',
+                background: 'linear-gradient(180deg, rgba(198,255,0,0.10), rgba(198,255,0,0.02))',
               }}
             >
-              Incondicional. <span className="text-acid">Reembolso 100%</span>.
-            </h2>
-            <p
-              className="mx-auto max-w-2xl font-sans"
-              style={{ fontSize: '1.05rem', lineHeight: '1.55', color: 'rgba(245, 241, 232, 0.85)' }}
+              <div
+                className="font-display text-acid mb-2"
+                style={{ fontSize: 'clamp(2.5rem, 6vw, 4rem)', lineHeight: '0.9', letterSpacing: '-0.045em' }}
+              >
+                {guaranteeDays} DIAS
+              </div>
+              <div
+                className="font-display text-cream mb-3"
+                style={{
+                  fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+                  lineHeight: '0.95',
+                  letterSpacing: '-0.025em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                Garantia incondicional · <span className="text-acid">reembolso 100%</span>
+              </div>
+              <p
+                className="mx-auto max-w-2xl font-sans"
+                style={{ fontSize: '0.95rem', lineHeight: '1.5', color: 'rgba(245, 241, 232, 0.8)' }}
+              >
+                Não funcionou? Reembolso integral, sem perguntas. O risco é nosso —
+                base aplicada em 140+ empresas.
+              </p>
+            </div>
+
+            {/* CTA final */}
+            <div
+              id="cta-final"
+              className="border-acid mt-10 border-2 p-10 text-center md:p-12"
+              style={{
+                background: 'linear-gradient(180deg, rgba(198,255,0,0.12), #050505)',
+              }}
             >
-              Não funcionou? Reembolso 100%. Sem perguntas, sem fricção. O risco é nosso —
-              confiança total porque a base do método já foi aplicada em 140+ empresas.
-            </p>
+              <div className="kicker mb-4">// DECISÃO</div>
+              <h3
+                className="font-display text-cream mb-5"
+                style={{
+                  fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+                  lineHeight: '0.95',
+                  letterSpacing: '-0.04em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                Entra hoje. <span className="text-acid">Primeira mentoria essa semana</span>.
+              </h3>
+              <p
+                className="mx-auto mb-8 max-w-2xl font-sans"
+                style={{ fontSize: '1.05rem', lineHeight: '1.55', color: 'rgba(245, 241, 232, 0.85)' }}
+              >
+                {priceLabel} à vista ou {installmentsCount}× {installmentLabel}. Perpétuo — entra
+                qualquer dia, primeira mentoria na próxima data do calendário. Sistema &gt;
+                Improviso. Bora pra cima.
+              </p>
+
+              <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <CheckoutButton
+                  productSlug="vss"
+                  label={`ENTRAR NO VSS · ${priceLabel}`}
+                  variant="fire"
+                  size="lg"
+                />
+                <Link href="/diagnostico" className="btn-secondary">
+                  Diagnóstico 6Ps grátis
+                </Link>
+              </div>
+
+              <div className="mono text-fg-muted mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs">
+                <span>
+                  <span className="text-acid">★</span> ACESSO VITALÍCIO
+                </span>
+                <span>
+                  <span className="text-acid">★</span> GROWTH CRM 12 MESES
+                </span>
+                <span>
+                  <span className="text-acid">★</span> 48 MENTORIAS AO VIVO
+                </span>
+                <span>
+                  <span className="text-acid">★</span> MERCADO PAGO · CARTÃO/PIX
+                </span>
+              </div>
+            </div>
           </div>
         </Container>
       </section>
 
-      {/* 11 — CTA FINAL */}
-      <section id="cta-final" className="bg-ink relative scroll-mt-24 overflow-hidden py-24">
-        <div className="grid-overlay" />
-        <Container>
-          <div
-            className="border-acid mx-auto max-w-4xl border-2 p-10 md:p-16"
-            style={{ background: 'linear-gradient(180deg, rgba(198,255,0,0.10), #050505)' }}
-          >
-            <div className="kicker mb-5">// 11_DECISÃO</div>
-            <h2
-              className="font-display text-cream mb-6"
-              style={{
-                fontSize: 'clamp(1.75rem, 4.5vw, 3rem)',
-                lineHeight: '0.95',
-                letterSpacing: '-0.04em',
-                textTransform: 'uppercase',
-              }}
-            >
-              Entra hoje. <span className="text-acid">Primeira mentoria essa semana</span>.
-            </h2>
-            <p
-              className="mb-8 font-sans"
-              style={{ fontSize: '1.125rem', lineHeight: '1.55', color: 'rgba(245, 241, 232, 0.85)' }}
-            >
-              {priceLabel} à vista ou {installmentsCount}× {installmentLabel}. Perpétuo — entra
-              qualquer dia, primeira mentoria na próxima data do calendário. Sistema &gt;
-              Improviso. Bora pra cima.
-            </p>
-
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-              <CheckoutButton
-                productSlug="vss"
-                label={`ENTRAR NO VSS · ${priceLabel}`}
-                variant="fire"
-                size="lg"
-              />
-              <Link href="/diagnostico" className="btn-secondary">
-                Diagnóstico 6Ps grátis
-              </Link>
-            </div>
-
-            <div className="mono text-fg-muted mt-8 flex flex-wrap gap-x-6 gap-y-2 text-xs">
-              <span>
-                <span className="text-acid">★</span> ACESSO VITALÍCIO
-              </span>
-              <span>
-                <span className="text-acid">★</span> GROWTH CRM 12 MESES
-              </span>
-              <span>
-                <span className="text-acid">★</span> 48 MENTORIAS AO VIVO
-              </span>
-              <span>
-                <span className="text-acid">★</span> MERCADO PAGO · CARTÃO/PIX
-              </span>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      {/* 12 — FAQ COMPLETA (último convite — quebra objeções remanescentes) */}
+      {/* 10 — FAQ COMPLETA (último convite — quebra objeções remanescentes) */}
       <section id="objecoes" className="bg-ink-2 relative scroll-mt-24 py-24">
         <Container>
           <div className="mx-auto mb-14 max-w-3xl">
-            <div className="kicker mb-4">// 12_FAQ_COMPLETA</div>
+            <div className="kicker mb-4">// 10_FAQ_COMPLETA</div>
             <h2
               className="font-display text-cream mb-6"
               style={{
@@ -1011,12 +1011,12 @@ export async function VssPage({ breadcrumbItems }: VssPageProps) {
         </Container>
       </section>
 
-      {/* 13 — DÚVIDAS (suporte fallback se nem FAQ resolveu) */}
+      {/* 11 — DÚVIDAS (suporte fallback se nem FAQ resolveu) */}
       <section id="duvidas" className="bg-ink relative scroll-mt-24 overflow-hidden py-24">
         <div className="grid-overlay" />
         <Container>
           <div className="mx-auto max-w-3xl text-center">
-            <div className="kicker mb-4">// 13_DÚVIDAS</div>
+            <div className="kicker mb-4">// 11_DÚVIDAS</div>
             <h2
               className="font-display text-cream mb-4"
               style={{
