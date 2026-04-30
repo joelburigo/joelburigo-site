@@ -80,6 +80,22 @@ const envSchema = z.object({
   GA4_API_SECRET: optionalString,
   META_CAPI_ACCESS_TOKEN: optionalString,
 
+  // Conversões server-side: Google Ads (Enhanced Conversions for Leads / Purchase)
+  GOOGLE_ADS_CUSTOMER_ID: optionalString,
+  GOOGLE_ADS_LOGIN_CUSTOMER_ID: optionalString,
+  GOOGLE_ADS_DEVELOPER_TOKEN: optionalString,
+  GOOGLE_ADS_OAUTH_CLIENT_ID: optionalString,
+  GOOGLE_ADS_OAUTH_CLIENT_SECRET: optionalString,
+  GOOGLE_ADS_REFRESH_TOKEN: optionalString,
+  /** Resource name: `customers/{id}/conversionActions/{id}` */
+  GOOGLE_ADS_CONVERSION_ACTION_LEAD: optionalString,
+  GOOGLE_ADS_CONVERSION_ACTION_PURCHASE: optionalString,
+
+  // Conversões server-side: Meta CAPI
+  META_PIXEL_ID: optionalString,
+  /** Quando setado, anexa `test_event_code` ao payload (modo testing no Events Manager) */
+  META_CAPI_TEST_EVENT_CODE: optionalString,
+
   SENTRY_DSN: optionalString,
 
   // Legado: gerador de audio dos posts blog (scripts/generate-audio-posts.mjs)
