@@ -7,6 +7,8 @@ export function AttributionFields() {
   const [attr, setAttr] = useState<AttributionData>({});
 
   useEffect(() => {
+    // Lê cookie no client após mount (SSR-safe). Single shot, sem cascading render.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAttr(readAttribution());
   }, []);
 
