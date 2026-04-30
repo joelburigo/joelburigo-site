@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import { Toaster } from 'sonner';
+import { Agentation } from 'agentation';
 import { fontsClassName } from '@/lib/fonts';
 import { SITE } from '@/lib/constants';
 import './globals.css';
@@ -74,6 +75,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             },
           }}
         />
+        {process.env.NODE_ENV === 'development' && <Agentation />}
       </body>
     </html>
   );
