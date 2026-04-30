@@ -10,5 +10,13 @@ export {
 } from './advisory-booking-confirmation';
 export { formContatoConfirmation } from './form-contato-confirmation';
 export { formDiagnosticoConfirmation } from './form-diagnostico-confirmation';
+export {
+  doubtsAdminNotification,
+  type DoubtsAdminNotificationProps,
+} from './doubts-admin-notification';
+export {
+  doubtsConfirmation,
+  type DoubtsConfirmationProps,
+} from './doubts-confirmation';
 export { paymentPending } from './payment-pending';
 export type { RenderedEmail } from './magic-link';
