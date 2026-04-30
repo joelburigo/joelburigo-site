@@ -70,6 +70,14 @@ function daysAgo(n: number): Date {
   return new Date(Date.now() - n * 24 * 60 * 60 * 1000);
 }
 
+/**
+ * postgres.js (porsager) não converte Date automaticamente em sql`` template
+ * tags como o `pg` clássico fazia. Forçar ISO string evita TypeError.
+ */
+function toIso(d: Date): string {
+  return d.toISOString();
+}
+
 function toNum(v: unknown): number {
   if (v == null) return 0;
   if (typeof v === 'number') return v;
@@ -80,7 +88,8 @@ function toNum(v: unknown): number {
 // ---------- Stats ----------
 
 export async function getDashboardStats(teamId: string): Promise<DashboardStats> {
-  const since30 = daysAgo(30);
+  const since30Date = daysAgo(30);
+  const since30 = toIso(since30Date);
 
   const [
     leadsRow,
@@ -132,19 +141,19 @@ export async function getDashboardStats(teamId: string): Promise<DashboardStats>
     db
       .select({ count: sql<string>`COUNT(*)` })
       .from(diagnostico_submissions)
-      .where(gte(diagnostico_submissions.created_at, since30)),
+      .where(gte(diagnostico_submissions.created_at, since30Date)),
 
     // lead doubts 30d
     db
       .select({ count: sql<string>`COUNT(*)` })
       .from(lead_doubts)
-      .where(gte(lead_doubts.created_at, since30)),
+      .where(gte(lead_doubts.created_at, since30Date)),
 
     // advisory applications 30d
     db
       .select({ count: sql<string>`COUNT(*)` })
       .from(advisory_applications)
-      .where(gte(advisory_applications.created_at, since30)),
+      .where(gte(advisory_applications.created_at, since30Date)),
   ]);
 
   const won30 = toNum(oppsRow[0]?.won30);

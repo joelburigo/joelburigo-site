@@ -3,7 +3,8 @@ import { Toaster } from 'sonner';
 import { Agentation } from 'agentation';
 import { fontsClassName } from '@/lib/fonts';
 import { SITE } from '@/lib/constants';
-import { serializePublicEnv, PUBLIC_ENV_WINDOW_KEY } from '@/lib/public-env';
+import { buildPublicEnv } from '@/lib/public-env';
+import { PublicEnvHydrator } from '@/components/features/public-env-hydrator';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -56,16 +57,8 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang={SITE.language} className={fontsClassName} data-scroll-behavior="smooth">
-      <head>
-        {/* window.__JB_ENV serializado em SSR via dangerouslySetInnerHTML
-            (NÃO children — React 19 só emite warning quando script tem children). */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.${PUBLIC_ENV_WINDOW_KEY}=${serializePublicEnv()};`,
-          }}
-        />
-      </head>
       <body className="bg-ink text-cream antialiased">
+        <PublicEnvHydrator env={buildPublicEnv()} />
         {children}
         <Toaster
           theme="dark"
