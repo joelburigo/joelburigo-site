@@ -124,7 +124,7 @@ export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
 
         <Container>
           {breadcrumbItems && <Breadcrumbs items={breadcrumbItems} className="mb-5" />}
-          <div className="grid items-center gap-[clamp(2rem,5vw,4rem)] lg:grid-cols-[1.2fr_0.8fr] lg:gap-x-[clamp(3rem,6vw,5rem)]">
+          <div className="grid items-center gap-[clamp(2rem,5vw,4rem)] lg:grid-cols-[1.3fr_1fr] lg:gap-x-[clamp(3rem,6vw,5rem)]">
             <div className="flex flex-col gap-[clamp(1.25rem,2.5vw,2rem)]">
               <div className="kicker" style={{ color: 'var(--jb-fg-muted)' }}>
                 // ADVISORY · 1:1 COM JOEL · EXCLUSIVO
@@ -148,7 +148,7 @@ export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
                 style={{
                   fontSize: 'clamp(1.05rem, 2vw, 1.25rem)',
                   lineHeight: '1.5',
-                  maxWidth: '52ch',
+                  maxWidth: '40ch',
                   margin: 0,
                   color: 'rgba(245, 241, 232, 0.85)',
                 }}
@@ -161,6 +161,18 @@ export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
                 digital e IA{' '}
                 <span className="text-acid">com framework, não com PowerPoint de 200 slides</span>.
               </p>
+
+              <div className="mono text-fg-muted flex flex-wrap items-center gap-x-6 gap-y-2">
+                <span className="flex items-center gap-2">
+                  <span className="text-acid">★</span> 17+ ANOS DE PRÁTICA
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="text-acid">★</span> 140+ EMPRESAS ESTRUTURADAS
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="text-acid">★</span> ~R$ 1 BI EM VENDAS
+                </span>
+              </div>
 
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
                 <a href="#formatos" className="btn-primary" style={{ minHeight: '48px' }}>
