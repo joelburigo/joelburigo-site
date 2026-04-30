@@ -139,8 +139,8 @@ export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
                   margin: 0,
                 }}
               >
-                Se sua empresa fatura mais de R$ 200k/mês e ainda depende de você —{' '}
-                <span className="stroke-text">ela não é empresa.</span> É{' '}
+                Empresa que depende de você{' '}
+                <span className="stroke-text">não é empresa.</span> É{' '}
                 <span className="text-fire">emprego</span>.
               </h1>
               <p
@@ -148,17 +148,17 @@ export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
                 style={{
                   fontSize: 'clamp(1.05rem, 2vw, 1.25rem)',
                   lineHeight: '1.5',
-                  maxWidth: '42ch',
+                  maxWidth: '52ch',
                   margin: 0,
                   color: 'rgba(245, 241, 232, 0.85)',
                 }}
               >
-                Advisory é acesso direto à minha cabeça pra momentos críticos ou parceria
-                estratégica de longo prazo. <strong className="text-cream">17+ anos</strong>,{' '}
-                <strong className="text-cream">140+ empresas estruturadas</strong>,{' '}
-                <strong className="text-cream">~R$ 1 bilhão</strong> em vendas estruturadas. Sem
-                enrolação, sem PowerPoint de 200 slides, sem execução terceirizada. Eu penso junto.
-                Você decide. Você executa.
+                Acesso direto à minha cabeça aplicando os{' '}
+                <strong className="text-cream">6Ps das Vendas Escaláveis</strong> — método
+                condensado em <strong className="text-cream">17+ anos</strong> e{' '}
+                <strong className="text-cream">140+ empresas</strong>. Pra quem fatura{' '}
+                <strong className="text-cream">R$ 200k+</strong> e precisa destravar vendas, escala
+                digital e IA com framework, não com PowerPoint de 200 slides.
               </p>
 
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
