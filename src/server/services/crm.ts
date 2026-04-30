@@ -602,7 +602,11 @@ export interface OpportunityListItem {
 export interface ListOpportunitiesResult {
   items: OpportunityListItem[];
   total: number;
-  facets: { pipeline: Record<string, number>; source: Record<string, number> };
+  facets: {
+    pipeline: Record<string, number>;
+    sources: Array<{ value: string; count: number }>;
+    owners: Array<{ id: string; name: string | null; email: string }>;
+  };
 }
 
 export async function listOpportunities(
@@ -620,7 +624,7 @@ export async function listOpportunities(
       .where(and(eq(pipelines.team_id, filters.teamId), eq(pipelines.slug, filters.pipelineSlug)))
       .limit(1);
     if (!pipe) {
-      return { items: [], total: 0, facets: { pipeline: {}, source: {} } };
+      return { items: [], total: 0, facets: { pipeline: {}, sources: [], owners: [] } };
     }
     where.push(eq(opportunities.pipeline_id, pipe.id));
   }
@@ -688,6 +692,17 @@ export async function listOpportunities(
     .where(and(...facetWhereBase))
     .groupBy(contacts.source);
 
+  // Owners distintos com nome/email (left join — opportunity sem owner é null)
+  const ownerFacet = await db
+    .selectDistinct({
+      id: users.id,
+      name: users.name,
+      email: users.email,
+    })
+    .from(opportunities)
+    .innerJoin(users, eq(users.id, opportunities.owner_id))
+    .where(and(...facetWhereBase));
+
   const items: OpportunityListItem[] = rows.map((r) => ({
     id: r.opportunity.id,
     title: r.opportunity.title,
@@ -720,14 +735,18 @@ export async function listOpportunities(
 
   const pipelineCounts: Record<string, number> = {};
   for (const f of pipelineFacet) pipelineCounts[f.slug] = Number(f.count);
-  const sourceCounts: Record<string, number> = {};
-  for (const f of sourceFacet) {
-    if (f.source) sourceCounts[f.source] = Number(f.count);
-  }
+
+  const sources: Array<{ value: string; count: number }> = sourceFacet
+    .filter((f): f is typeof f & { source: string } => Boolean(f.source))
+    .map((f) => ({ value: f.source, count: Number(f.count) }));
+
+  const owners: Array<{ id: string; name: string | null; email: string }> = ownerFacet.map(
+    (o) => ({ id: o.id, name: o.name, email: o.email })
+  );
 
   return {
     items,
     total: items.length,
-    facets: { pipeline: pipelineCounts, source: sourceCounts },
+    facets: { pipeline: pipelineCounts, sources, owners },
   };
 }
