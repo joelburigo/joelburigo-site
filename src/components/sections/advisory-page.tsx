@@ -158,16 +158,13 @@ export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
                 condensado em <strong className="text-cream">17+ anos</strong> e{' '}
                 <strong className="text-cream">140+ empresas</strong>. Pra quem fatura{' '}
                 <strong className="text-cream">R$ 200k+</strong> e precisa destravar vendas, escala
-                digital e IA com framework, não com PowerPoint de 200 slides.
+                digital e IA{' '}
+                <span className="text-acid">com framework, não com PowerPoint de 200 slides</span>.
               </p>
 
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <a
-                  href="mailto:joel@joelburigo.com.br?subject=Solicita%C3%A7%C3%A3o%20Advisory"
-                  className="btn-primary"
-                  style={{ minHeight: '48px' }}
-                >
-                  Solicitar convite →
+                <a href="#formatos" className="btn-primary" style={{ minHeight: '48px' }}>
+                  Ver formatos <span className="font-mono">↓</span>
                 </a>
                 <span className="mono text-fg-muted">★ resposta direta do Joel</span>
               </div>
@@ -326,7 +323,10 @@ export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
       </section>
 
       {/* 3 FORMATOS */}
-      <section className="bg-ink relative overflow-hidden py-24">
+      <section
+        id="formatos"
+        className="bg-ink relative overflow-hidden scroll-mt-24 py-24"
+      >
         <div className="grid-overlay" />
 
         <Container>
@@ -341,7 +341,7 @@ export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
                 textTransform: 'uppercase',
               }}
             >
-              Escolhe o <span className="text-acid">formato</span> que cabe no teu momento.
+              Escolhe o <span className="text-acid">formato</span> que cabe no seu momento.
             </h2>
             <p
               className="font-sans"
