@@ -808,6 +808,171 @@ export const diagnostico_submissions = pgTable(
   })
 );
 
+// ============ 8b. ATTRIBUTION (marketing) ============
+
+/**
+ * Captura first-touch + last-touch de marketing pra qualquer lead.
+ * FK opcional pra contacts (linkado via lead-intake).
+ *
+ * Captura:
+ *   - UTM params (source/medium/campaign/term/content)
+ *   - Click IDs (Google gclid, Meta fbclid, MS msclkid, TikTok ttclid)
+ *   - Page context (referrer, first/last landing)
+ *   - Device + geo (CF-IPCountry headers)
+ *   - Meta browser cookies (_fbp, _fbc) — necessários pra CAPI matching
+ */
+export const lead_attribution = pgTable(
+  'lead_attribution',
+  {
+    id: text('id').primaryKey(),
+    contact_id: text('contact_id').references(() => contacts.id, { onDelete: 'cascade' }),
+
+    // UTM
+    utm_source: text('utm_source'),
+    utm_medium: text('utm_medium'),
+    utm_campaign: text('utm_campaign'),
+    utm_term: text('utm_term'),
+    utm_content: text('utm_content'),
+
+    // Click IDs
+    gclid: text('gclid'),
+    fbclid: text('fbclid'),
+    msclkid: text('msclkid'),
+    ttclid: text('ttclid'),
+
+    // Page context
+    referrer: text('referrer'),
+    first_landing_page: text('first_landing_page'),
+    last_landing_page: text('last_landing_page'),
+
+    // Device
+    device: text('device'), // mobile | tablet | desktop
+    browser: text('browser'),
+    os: text('os'),
+
+    // Geo (Cloudflare CF-IPCountry / CF-Region / CF-IPCity headers)
+    country: text('country'),
+    region: text('region'),
+    city: text('city'),
+
+    // Meta CAPI matching
+    fbp: text('fbp'),
+    fbc: text('fbc'),
+
+    created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    updated_at: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => ({
+    contactIdx: index('idx_lead_attribution_contact').on(t.contact_id),
+    gclidIdx: index('idx_lead_attribution_gclid').on(t.gclid),
+    fbclidIdx: index('idx_lead_attribution_fbclid').on(t.fbclid),
+  })
+);
+
+// ============ 8c. LEAD DOUBTS (popup "ainda tem dúvidas?") ============
+
+/**
+ * Captura passiva no rodapé das landings VSS/Advisory.
+ * Lead frio com baixa intent — vira opportunity stage "Lead frio".
+ */
+export const lead_doubts = pgTable(
+  'lead_doubts',
+  {
+    id: text('id').primaryKey(),
+    nome: text('nome').notNull(),
+    email: text('email').notNull(),
+    whatsapp: text('whatsapp'),
+    duvida: text('duvida').notNull(), // textarea livre
+
+    // Contexto
+    produto_interesse: text('produto_interesse').notNull(), // vss · advisory · ambos
+    landing_page: text('landing_page'), // /vendas-sem-segredos · /advisory etc
+
+    // FKs
+    contact_id: text('contact_id').references(() => contacts.id, { onDelete: 'set null' }),
+    attribution_id: text('attribution_id').references(() => lead_attribution.id, {
+      onDelete: 'set null',
+    }),
+
+    // Admin tracking
+    answered_at: timestamp('answered_at', { withTimezone: true }),
+    notes_admin: text('notes_admin'),
+
+    ip: text('ip'),
+    user_agent: text('user_agent'),
+    created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => ({
+    emailIdx: index('idx_lead_doubts_email').on(t.email),
+    productIdx: index('idx_lead_doubts_product').on(t.produto_interesse),
+    createdIdx: index('idx_lead_doubts_created').on(t.created_at),
+  })
+);
+
+// ============ 8d. ADVISORY APPLICATIONS ============
+
+/**
+ * Aplicação Sprint/Conselho — fluxo qualificado pra triagem do Joel.
+ * Sessão Avulsa NÃO usa esta tabela (compra direta via checkout).
+ */
+export const advisory_applications = pgTable(
+  'advisory_applications',
+  {
+    id: text('id').primaryKey(),
+    nome: text('nome').notNull(),
+    email: text('email').notNull(),
+    whatsapp: text('whatsapp').notNull(),
+    cargo: text('cargo'),
+    empresa: text('empresa').notNull(),
+    site_empresa: text('site_empresa'),
+
+    // Qualificação ICP
+    faturamento_mensal_range: text('faturamento_mensal_range').notNull(),
+    // Enum: '<100k' | '100-200k' | '200-500k' | '500k-1M' | '1M-5M' | '>5M'
+
+    setor: text('setor').notNull(),
+    tamanho_time: integer('tamanho_time'),
+    anos_no_mercado: integer('anos_no_mercado'),
+
+    // Pain + intent
+    dor_principal_md: text('dor_principal_md').notNull(),
+    urgencia: integer('urgencia').notNull(), // 1-5 (1=explorando, 5=apagando incêndio)
+    timeline_esperada: text('timeline_esperada').notNull(), // '3m' | '6m' | '12m+'
+
+    tentou_consultoria_antes: text('tentou_consultoria_antes'), // 'sim' | 'nao'
+    qual_consultoria: text('qual_consultoria'),
+
+    disponibilidade_semanal_horas: integer('disponibilidade_semanal_horas'),
+
+    // Formato escolhido
+    formato_interesse: text('formato_interesse').notNull(), // 'sprint' | 'conselho' | 'ambos'
+
+    // FKs
+    contact_id: text('contact_id').references(() => contacts.id, { onDelete: 'set null' }),
+    attribution_id: text('attribution_id').references(() => lead_attribution.id, {
+      onDelete: 'set null',
+    }),
+
+    // Triagem
+    status: text('status').notNull().default('aguardando'),
+    // 'aguardando' | 'em_triagem' | 'aprovado' | 'rejeitado' | 'aplicado'
+    triaged_at: timestamp('triaged_at', { withTimezone: true }),
+    triaged_by: text('triaged_by').references(() => users.id),
+    rejection_reason: text('rejection_reason'),
+    notes_admin: text('notes_admin'),
+
+    ip: text('ip'),
+    user_agent: text('user_agent'),
+    created_at: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => ({
+    emailIdx: index('idx_advisory_apps_email').on(t.email),
+    statusIdx: index('idx_advisory_apps_status').on(t.status),
+    formatoIdx: index('idx_advisory_apps_formato').on(t.formato_interesse),
+    createdIdx: index('idx_advisory_apps_created').on(t.created_at),
+  })
+);
+
 // ============ 9. ADMIN AUDIT ============
 
 export const admin_audit = pgTable('admin_audit', {
