@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Turnstile } from '@/components/features/turnstile';
+import { captureAttribution, readAttribution } from '@/lib/attribution';
 
 // ---------- Tipos & dados ----------
 
@@ -206,6 +207,11 @@ export function DiagnosticoWizard() {
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const headingRef = useRef<HTMLHeadingElement | null>(null);
 
+  // Captura attribution (UTM/click IDs/Meta cookies) no mount — first-touch wins.
+  useEffect(() => {
+    captureAttribution();
+  }, []);
+
   // Restaura rascunho do localStorage (sistema externo: SSR-safe hydration)
   useEffect(() => {
     try {
@@ -338,6 +344,7 @@ export function DiagnosticoWizard() {
         scores: resolvedScores,
         raw_answers,
         cf_turnstile_token: turnstileToken,
+        attribution: readAttribution(),
       };
 
       const res = await fetch('/api/forms/diagnostico', {

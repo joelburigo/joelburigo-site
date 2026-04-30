@@ -14,6 +14,12 @@ import { sendEmail } from '@/server/services/email';
 import { formDiagnosticoConfirmation } from '@/server/services/email-templates';
 import { rateLimit, pickIp } from '@/server/lib/rate-limit';
 import { verifyTurnstile } from '@/server/services/turnstile';
+import {
+  attributionInputSchema,
+  extractAttributionFromRequest,
+  persistAttribution,
+  linkAttributionToContact,
+} from '@/server/services/marketing-attribution';
 import { env } from '@/env';
 
 const score04 = z.number().int().min(0).max(4);
@@ -35,6 +41,7 @@ const bodySchema = z.object({
   }),
   raw_answers: z.record(z.unknown()).default({}),
   cf_turnstile_token: z.string().optional().nullable(),
+  attribution: attributionInputSchema.optional(),
 });
 
 type DiagnosticoBody = z.infer<typeof bodySchema>;
@@ -119,7 +126,29 @@ export async function POST(req: NextRequest) {
       s.posicionamento + s.publico + s.produto + s.programas + s.processos + s.pessoas;
     const nivel = nivelMaturidade(total);
 
+    // Persiste attribution ANTES de criar contact (pra linkar)
+    const attrCtx = await extractAttributionFromRequest(req, {
+      ...(data.attribution ?? {}),
+    });
+    const attributionId = await persistAttribution({
+      attribution: attrCtx.attribution,
+      geo: attrCtx.geo,
+      device: attrCtx.device,
+    });
+
     const submissionId = ulid();
+    const team = await getDefaultTeam();
+    const contact = await upsertContact({
+      teamId: team.id,
+      name: data.nome,
+      email: data.email,
+      whatsapp: data.whatsapp ?? null,
+      source: 'form_diagnostico',
+      produto_interesse: 'vss',
+    });
+
+    await linkAttributionToContact(attributionId, contact.id);
+
     await db.insert(diagnostico_submissions).values({
       id: submissionId,
       nome: data.nome,
@@ -137,18 +166,10 @@ export async function POST(req: NextRequest) {
       score_total: total,
       nivel_maturidade: nivel,
       raw_answers: data.raw_answers,
+      contact_id: contact.id,
+      attribution_id: attributionId,
       ip: clientIp(req),
       user_agent: req.headers.get('user-agent'),
-    });
-
-    const team = await getDefaultTeam();
-    const contact = await upsertContact({
-      teamId: team.id,
-      name: data.nome,
-      email: data.email,
-      whatsapp: data.whatsapp ?? null,
-      source: 'form_diagnostico',
-      produto_interesse: 'vss',
     });
 
     const opp = await createOpportunity({

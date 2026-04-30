@@ -796,6 +796,10 @@ export const diagnostico_submissions = pgTable(
     whatsapp_sent_at: timestamp('whatsapp_sent_at', { withTimezone: true }),
     forwarded_to_n8n_at: timestamp('forwarded_to_n8n_at', { withTimezone: true }),
 
+    // CRM links (preenchidos no intake — opcionais pra retrocompat)
+    contact_id: text('contact_id'),
+    attribution_id: text('attribution_id'),
+
     ip: text('ip'),
     user_agent: text('user_agent'),
     notes_admin: text('notes_admin'),
@@ -805,6 +809,7 @@ export const diagnostico_submissions = pgTable(
     emailIdx: index('idx_diagnostico_email').on(t.email),
     userIdx: index('idx_diagnostico_user').on(t.user_id),
     createdIdx: index('idx_diagnostico_created').on(t.created_at),
+    contactIdx: index('idx_diagnostico_contact').on(t.contact_id),
   })
 );
 
