@@ -27,7 +27,16 @@ const steps = [
   },
 ];
 
-export default function AdvisoryObrigadoPage() {
+interface SearchParams {
+  id?: string;
+}
+
+export default async function AdvisoryObrigadoPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { id } = await searchParams;
   return (
     <main className="bg-ink relative overflow-hidden pt-20">
       <div className="grid-overlay" />
@@ -55,10 +64,15 @@ export default function AdvisoryObrigadoPage() {
             </h1>
 
             <p className="text-cream mt-8 max-w-2xl font-sans text-lg">
-              Obrigado por se candidatar. Analiso pessoalmente ·{' '}
-              <strong className="text-acid">sem fila, sem intermediários</strong> · se o momento da
-              sua empresa faz sentido pra Advisory.
+              Aplicação recebida. <strong className="text-acid">Joel responde em até 48h</strong>{' '}
+              via email ou WhatsApp · sem fila, sem intermediário.
             </p>
+
+            {id && (
+              <p className="text-fg-muted mt-3 font-mono text-[11px] tracking-[0.22em] uppercase">
+                ★ ref: <span className="text-acid">{id}</span>
+              </p>
+            )}
 
             <div className="bg-ink-2 mt-12 border border-[var(--jb-acid-border)] p-8">
               <div className="kicker mb-6" style={{ color: 'var(--jb-acid)' }}>

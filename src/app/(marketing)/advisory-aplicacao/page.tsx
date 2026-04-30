@@ -1,48 +1,73 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Container } from '@/components/patterns/container';
-import { HighLevelForm } from '@/components/ui/highlevel-form';
+import { AdvisoryApplicationForm } from '@/components/features/advisory/advisory-application-form';
+import type { AdvisoryFormato } from '@/components/features/advisory/advisory-application-form';
 
 export const metadata: Metadata = {
   title: 'Aplicar pra Advisory — Sprint + Conselho | Joel Burigo',
   description:
-    'Análise de fit pra Sprint Estratégico 30 Dias ou Conselho Executivo. Vagas limitadas.',
+    'Aplicação Sprint Estratégico 30 Dias ou Conselho Executivo. Análise direta do Joel · vagas limitadas conforme capacidade.',
   keywords: ['advisory', 'sprint estratégico', 'conselho executivo', 'consultoria', 'Joel Burigo'],
   robots: { index: false, follow: false },
+  alternates: { canonical: '/advisory-aplicacao' },
 };
+
+const VALID: ReadonlySet<AdvisoryFormato> = new Set(['sprint', 'conselho', 'ambos']);
+
+interface SearchParams {
+  formato?: string;
+}
 
 const steps = [
   {
     n: '01',
     title: 'Você aplica',
-    body: 'Preenche o formulário detalhando desafio e momento atual.',
+    body: 'Preenche os 3 blocos abaixo: identificação, empresa, momento + dor.',
   },
   {
     n: '02',
-    title: 'Análise de fit',
-    body: 'Analiso pessoalmente se faz sentido — sem fila, sem intermediários.',
+    title: 'Análise direta do Joel',
+    body: 'Leio pessoalmente. Sem fila, sem intermediário. Triagem mútua honesta.',
   },
   {
     n: '03',
-    title: 'Conversa inicial',
-    body: 'Se houver fit, agendamos 30 min pra alinhar expectativa.',
+    title: 'Resposta + próximos passos',
+    body: 'Se houver fit, chamo no WhatsApp pra alinhar. Se não, indico VSS ou alternativa.',
   },
 ];
 
-export default function AdvisoryAplicacaoPage() {
+export default async function AdvisoryAplicacaoPage({
+  searchParams,
+}: {
+  searchParams: Promise<SearchParams>;
+}) {
+  const { formato: formatoRaw } = await searchParams;
+  const formato: AdvisoryFormato =
+    formatoRaw && VALID.has(formatoRaw as AdvisoryFormato)
+      ? (formatoRaw as AdvisoryFormato)
+      : 'sprint';
+
+  const headlineParts: { lead: string; tail: string } =
+    formato === 'conselho'
+      ? { lead: 'Aplicar pro', tail: 'Conselho Executivo.' }
+      : formato === 'ambos'
+        ? { lead: 'Aplicar pra', tail: 'Advisory.' }
+        : { lead: 'Aplicar pra', tail: 'Sprint Estratégico.' };
+
   return (
     <main className="bg-ink relative overflow-hidden pt-20">
       <div className="grid-overlay" />
 
       <Container className="relative z-10">
         <section className="py-16 md:py-24">
-          <div className="mx-auto max-w-5xl">
-            <div className="mb-12">
+          <div className="mx-auto max-w-4xl">
+            <div className="mb-10">
               <div className="kicker mb-6">// ADVISORY · APLICAÇÃO · ANÁLISE_DE_FIT</div>
               <h1
                 className="font-display text-cream"
                 style={{
-                  fontSize: 'clamp(2.5rem, 7vw, 4.5rem)',
+                  fontSize: 'clamp(2.25rem, 6.5vw, 4rem)',
                   fontWeight: 900,
                   letterSpacing: '-0.045em',
                   lineHeight: '0.92',
@@ -50,65 +75,17 @@ export default function AdvisoryAplicacaoPage() {
                   margin: 0,
                 }}
               >
-                Aplicar pra <span className="text-acid">Advisory.</span>
+                {headlineParts.lead}
+                <span className="text-acid block">{headlineParts.tail}</span>
               </h1>
               <p className="text-cream mt-6 max-w-2xl font-sans text-lg">
-                Preenche o formulário detalhando teu momento. Analiso pessoalmente ·{' '}
-                <strong className="text-acid">resposta direta do Joel</strong>, sem fila.
+                Preenche detalhando teu momento. Analiso pessoalmente ·{' '}
+                <strong className="text-acid">resposta direta do Joel</strong>, sem fila, sem
+                intermediário.
               </p>
             </div>
 
-            <div className="mb-10 grid gap-6 md:grid-cols-2">
-              <div className="card" style={{ borderColor: 'var(--jb-acid-border)' }}>
-                <div className="kicker mb-3" style={{ color: 'var(--jb-acid)' }}>
-                  // SPRINT · 30_DIAS
-                </div>
-                <h3 className="heading-3 text-cream mb-4">Sprint Estratégico 30 Dias</h3>
-                <ul className="text-fg-2 space-y-2 font-mono text-[13px]">
-                  <li>
-                    <span className="text-acid">▶</span> 30 dias intensivos
-                  </li>
-                  <li>
-                    <span className="text-acid">▶</span> 4 sessões de 90 min
-                  </li>
-                  <li>
-                    <span className="text-acid">▶</span> Plano estratégico 12 meses
-                  </li>
-                  <li>
-                    <span className="text-acid">▶</span> R$ 7.500
-                  </li>
-                </ul>
-                <p className="text-fg-2 mt-4 font-sans">
-                  Pra momentos de virada que exigem plano estruturado em 30 dias.
-                </p>
-              </div>
-
-              <div className="card" style={{ borderColor: 'var(--jb-fire-border)' }}>
-                <div className="kicker mb-3" style={{ color: 'var(--jb-fire)' }}>
-                  // CONSELHO · EXECUTIVO
-                </div>
-                <h3 className="heading-3 text-cream mb-4">Conselho Executivo</h3>
-                <ul className="text-fg-2 space-y-2 font-mono text-[13px]">
-                  <li>
-                    <span className="text-fire">●</span> 3-6 meses
-                  </li>
-                  <li>
-                    <span className="text-fire">●</span> 8 sessões/mês
-                  </li>
-                  <li>
-                    <span className="text-fire">●</span> WhatsApp direto
-                  </li>
-                  <li>
-                    <span className="text-fire">●</span> R$ 15.000/mês
-                  </li>
-                </ul>
-                <p className="text-fg-2 mt-4 font-sans">
-                  Pra empresas que precisam de conselheiro presente e acompanhamento contínuo.
-                </p>
-              </div>
-            </div>
-
-            <div className="bg-ink-2 mb-10 border border-[var(--jb-hair)] p-8">
+            <div className="bg-ink-2 mb-10 border border-[var(--jb-hair)] p-6">
               <div className="kicker mb-6">// COMO_FUNCIONA</div>
               <div className="grid gap-6 md:grid-cols-3">
                 {steps.map((step) => (
@@ -126,20 +103,16 @@ export default function AdvisoryAplicacaoPage() {
               </div>
             </div>
 
-            <div className="bg-ink-2 mb-10 border border-[var(--jb-acid-border)] p-4 sm:p-6">
-              <div className="kicker mb-4" style={{ color: 'var(--jb-acid)' }}>
-                // FORMULÁRIO · APLICAÇÃO
-              </div>
-              <HighLevelForm formId="GwMlk5A2LFPxqbNJC1j2" height="2042px" />
-            </div>
+            <AdvisoryApplicationForm formato={formato} />
 
-            <div className="border-fire bg-ink-2 border-l-2 p-6">
+            <div className="border-fire bg-ink-2 mt-10 border-l-2 p-6">
               <div className="kicker mb-2" style={{ color: 'var(--jb-fire)' }}>
-                // VAGAS · EXTREMAMENTE_LIMITADAS
+                // VAGAS · LIMITADAS · CONFORME_CAPACIDADE
               </div>
               <p className="text-cream font-sans">
-                Vagas limitadas conforme capacidade do momento — tanto no Sprint quanto no Conselho
-                Executivo. Só aceito quem tá em momento crítico real e vai executar.
+                Aceito quem tá em momento crítico real, fatura R$ 200k+/mês e vai executar. Se
+                não houver fit no momento, indico VSS ou recurso gratuito — sem empurrar venda
+                forçada.
               </p>
             </div>
 

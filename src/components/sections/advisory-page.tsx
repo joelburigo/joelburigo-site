@@ -1,119 +1,107 @@
+import 'server-only';
+import Image from 'next/image';
 import { Container } from '@/components/patterns/container';
 import { Breadcrumbs, type BreadcrumbItem } from '@/components/seo/breadcrumbs';
-import {
-  CheckoutButton,
-  type CheckoutProductSlug,
-} from '@/components/features/payments/checkout-button';
+import { CheckoutButton } from '@/components/features/payments/checkout-button';
+import { TestimonialCarousel } from '@/components/features/testimonials/testimonial-carousel';
+import { DoubtsPopup } from '@/components/features/doubts/doubts-popup';
+import { getConfig } from '@/server/services/config';
+import { listPublishedTestimonials } from '@/server/services/testimonials';
 
 interface AdvisoryPageProps {
   breadcrumbItems?: BreadcrumbItem[];
 }
 
-const formatos: Array<{
-  nome: string;
-  investimento: string;
-  cadencia: string;
-  cadenciaPrefixo?: string;
-  duracao: string;
-  entrega: string;
-  paraQuem: string;
-  inclusos: string[];
-  usos: string[];
-  destaque?: boolean;
-  precoEspecial?: string;
-  slug: CheckoutProductSlug;
-  ctaLabel: string;
-}> = [
+function formatBRL(cents: number): string {
+  const reais = Math.round(cents / 100);
+  return `R$ ${reais.toLocaleString('pt-BR')}`;
+}
+
+const dores = [
   {
-    nome: 'Sessão Estratégica',
-    investimento: 'R$ 997',
-    slug: 'advisory-sessao',
-    ctaLabel: 'AGENDAR SESSÃO · R$ 997',
-    cadencia: '/sessão · 90 min',
-    duracao: '90 minutos',
-    entrega: 'Relatório executivo 2–3 pgs',
-    paraQuem: 'Desafio específico que precisa de direcionamento',
-    inclusos: [
-      '90 min de consultoria direta (presencial ou remoto)',
-      'Diagnóstico rápido dos 6Ps',
-      'Plano de ação (3–5 ações prioritárias)',
-      'Gravação da sessão',
-      'Relatório executivo 2–3 páginas',
-    ],
-    usos: [
-      'Como me diferenciar sem competir por preço?',
-      'Devo investir em tráfego ou contratar vendedor?',
-      'Minha narrativa de investidor está de pé?',
-    ],
+    n: '01',
+    titulo: 'Refém da operação',
+    body: 'Você assina cada decisão estratégica. Sai 3 dias e volta com fogo pra apagar. Férias = empresa parada. O negócio é teu, mas o tempo é dele.',
   },
   {
-    nome: 'Sprint Estratégico',
-    investimento: 'R$ 7.500',
-    slug: 'advisory-sprint',
-    ctaLabel: 'CONTRATAR SPRINT · R$ 7.500',
-    cadencia: 'pagamento único · 30 dias',
-    duracao: '4 sessões · 30 dias',
-    entrega: 'Documento estratégico final 20–40 pgs',
-    paraQuem: 'Momento crítico que precisa de plano estruturado',
-    inclusos: [
-      '4 sessões de 90 min (1 por semana)',
-      'Diagnóstico profundo dos 6Ps',
-      'Plano estratégico 12 meses detalhado',
-      'WhatsApp direto com o Joel',
-      'Documento estratégico final (20–40 páginas)',
-    ],
-    usos: [
-      'Vou abrir filial — preciso de plano estruturado',
-      'Migrando de consultoria pra SaaS, preciso reorganizar',
-      'Faturamento caiu 40% — preciso reagir rápido',
-    ],
-    destaque: true,
+    n: '02',
+    titulo: 'Vendas que não escalam',
+    body: 'Bate teto e não passa. Time não bate meta sem você fechar. Cresceu desordenado, agora não sabe se é Posicionamento, Processo ou Pessoa que tá travando.',
   },
   {
-    nome: 'Conselho Executivo',
-    investimento: 'R$ 15.000',
-    slug: 'advisory-conselho',
-    ctaLabel: 'ASSINAR CONSELHO · R$ 15K/MÊS',
-    cadenciaPrefixo: 'a partir de',
-    cadencia: '/mês · mín. 3 meses',
-    duracao: '3–6 meses',
-    entrega: 'Diagnóstico trimestral dos 6Ps',
-    paraQuem: 'Empresa que precisa de conselheiro presente',
-    inclusos: [
-      '8 sessões/mês (2 por semana · 60 min)',
-      'WhatsApp prioritário com o Joel',
-      'Participação em até 2 reuniões críticas/mês',
-      'Revisão ilimitada de materiais estratégicos',
-      'Diagnóstico trimestral dos 6Ps',
-    ],
-    usos: [
-      'R$ 300k/mês, meta R$ 1M/mês em 12 meses',
-      'Cresceu desordenado, preciso arrumar a casa',
-      'Preparar empresa pra exit em 18 meses',
-    ],
-    precoEspecial: 'R$ 12.500/mês no plano semestral',
+    n: '03',
+    titulo: 'Tech virou gambiarra',
+    body: 'Stack improvisada. IA aplicada de qualquer jeito. Dados espalhados em 7 planilhas + 3 CRMs + 2 ERPs. Agentes virais no LinkedIn que você ainda não sabe se faz sentido aplicar.',
   },
 ];
 
-const eh = [
-  'CEO/Founder em momento crítico real',
-  'Quer minha cabeça, não execução',
-  'Valoriza atalho de 17+ anos',
-  'Entende que tempo > dinheiro',
+const comoTrabalho = [
+  {
+    titulo: 'Eu penso junto. Você decide. Você executa.',
+    body: 'Não DFY. Não monto operação por você. Sentamos no campo, eu trago framework + cicatriz, você sai com clareza pra implementar.',
+  },
+  {
+    titulo: 'Acesso direto via WhatsApp',
+    body: 'No Sprint e no Conselho você tem meu número. Sem fila, sem intermediário. Resposta direta do Joel.',
+  },
+  {
+    titulo: 'Sem entregáveis bonitos. Sou pé-no-chão.',
+    body: 'Não vendo PowerPoint de 200 slides. Vendo cabeça aplicada nos 6Ps das Vendas Escaláveis — método condensado em 17+ anos e 140+ empresas.',
+  },
+  {
+    titulo: 'Tudo é confidencial',
+    body: 'NDA padrão se precisar. O que entra na sala não sai. Cliente em setor sensível, exit, M&A, crise — tratamento sério.',
+  },
 ];
 
-const naoEh = [
-  'Quer que eu faça por você — Advisory é pensar junto',
-  'Busca preço acessível (vai para VSS)',
-  'Não tem urgência real',
-  'Não aceita feedback direto',
+const objecoes = [
+  {
+    q: 'R$ 7.500 por 30 dias é caro?',
+    a: 'Um hire errado pra liderança custa 10× isso. Decisão estratégica equivocada (abrir filial errada, contratar 5 vendedores antes de processo, queimar R$ 50k em tráfego sem oferta validada) custa mais. Você paga uma vez e leva o framework pra vida.',
+  },
+  {
+    q: 'Por que não consultoria tradicional?',
+    a: 'Consultor tradicional entrega slide bonito e some. Eu fico no campo com você. Estratégia sem implementação é teoria — e teoria não paga boleto. O método dos 6Ps existe pra rodar, não pra ficar no PDF.',
+  },
+  {
+    q: 'Já tentei mentor antes e não rolou.',
+    a: 'Diferença é cicatriz operacional real (~R$ 1 bilhão em vendas estruturadas em 17+ anos, quebrei 2× e reconstruí), acesso direto sem fila, e foco obsessivo em fazer rodar. Não é palco motivacional — é sparring estratégico.',
+  },
+  {
+    q: 'E se eu não for aprovado?',
+    a: 'Triagem é mútua, não é rejeição pessoal. Se o momento não bater (faturamento, urgência, fit de método), indico VSS ou recurso gratuito. Não empurro venda forçada — não tenho tempo nem você.',
+  },
+  {
+    q: 'Quanto tempo investe da minha agenda?',
+    a: 'Sprint: 4 sessões de 90 min em 30 dias + WhatsApp. Conselho: 1–2 reuniões/semana de 60 min + WhatsApp prioritário + revisão de materiais. Sessão Avulsa: 90 min e segue a vida.',
+  },
 ];
 
-export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
+export async function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
+  const [sessionPrice, sprintPrice, councilMin, councilMax, testimonialsAdvisory] =
+    await Promise.all([
+      getConfig<number>('pricing', 'advisory.session_price_cents', 99700),
+      getConfig<number>('pricing', 'advisory.sprint_price_cents', 750000),
+      getConfig<number>('pricing', 'advisory.council_price_min_cents', 1250000),
+      getConfig<number>('pricing', 'advisory.council_price_max_cents', 1500000),
+      listPublishedTestimonials({ product: 'advisory', featured: true, limit: 6 }),
+    ]);
+
+  // Fallback pra 'all' featured se não houver advisory featured ainda
+  const showAllFallback = testimonialsAdvisory.length === 0;
+
+  const sessionPriceLabel = formatBRL(sessionPrice);
+  const sprintPriceLabel = formatBRL(sprintPrice);
+  const councilMinLabel = formatBRL(councilMin);
+  const councilMaxLabel = formatBRL(councilMax);
+
   return (
     <>
-      {/* HERO */}
-      <section className="bg-ink relative overflow-hidden pt-12 pb-24 md:pt-16">
+      {/* 1. HERO */}
+      <section
+        id="hero"
+        className="bg-ink relative scroll-mt-24 overflow-hidden pt-12 pb-24 md:pt-16"
+      >
         <div className="grid-overlay" />
         <div
           className="pointer-events-none absolute top-20 -right-40 h-[600px] w-[600px] rounded-full"
@@ -127,7 +115,7 @@ export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
           <div className="grid items-center gap-[clamp(2rem,5vw,4rem)] lg:grid-cols-[1.3fr_1fr] lg:gap-x-[clamp(3rem,6vw,5rem)]">
             <div className="flex flex-col gap-[clamp(1.25rem,2.5vw,2rem)]">
               <div className="kicker" style={{ color: 'var(--jb-fg-muted)' }}>
-                // ADVISORY · 1:1 COM JOEL · EXCLUSIVO
+                // ADVISORY · 1:1 COM JOEL · ENTERPRISE
               </div>
               <h1
                 className="font-display text-cream"
@@ -231,7 +219,7 @@ export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
                   <span className="text-acid">OK</span>
                 </div>
                 <div className="text-cream">
-                  <span className="text-acid">[✓]</span> CEO/Founder comprometido .......{' '}
+                  <span className="text-acid">[✓]</span> comprometido com execução .....{' '}
                   <span className="text-acid">OK</span>
                 </div>
                 <div className="text-cream">
@@ -255,9 +243,9 @@ export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
                 <div className="text-cream">
                   &gt; slots: <span className="text-acid">limitados</span> · conforme capacidade
                 </div>
-                <div className="text-cream">&gt; access: convite · indicação · e-mail</div>
+                <div className="text-cream">&gt; access: convite · indicação · aplicação</div>
                 <div className="text-cream">
-                  <span className="text-acid">$</span> solicitar_convite
+                  <span className="text-acid">$</span> aplicar
                   <span className="text-fg-muted" style={{ animation: 'blink 1s infinite' }}>
                     _
                   </span>
@@ -268,14 +256,89 @@ export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
         </Container>
       </section>
 
-      {/* MANIFESTO / FILTRO É × NÃO É */}
-      <section className="bg-ink-2 relative py-20">
+      {/* 2. PROBLEMA — 3 dores enterprise */}
+      <section id="problema" className="bg-ink-2 relative scroll-mt-24 py-20">
         <Container>
-          <div className="mx-auto max-w-5xl">
-            <div className="mb-12">
-              <div className="kicker mb-4">// FILTRO</div>
+          <div className="mx-auto mb-12 max-w-5xl">
+            <div className="kicker mb-4">// PROBLEMA · 3 DORES ENTERPRISE</div>
+            <h2
+              className="font-display text-cream"
+              style={{
+                fontSize: 'clamp(1.75rem, 4.5vw, 3rem)',
+                lineHeight: '0.95',
+                letterSpacing: '-0.035em',
+                textTransform: 'uppercase',
+              }}
+            >
+              Você fatura <span className="text-acid">R$ 200k+</span>. E mesmo assim:
+            </h2>
+          </div>
+
+          <div className="mx-auto grid max-w-6xl gap-0 border border-white/10 md:grid-cols-3">
+            {dores.map((d, i) => (
+              <article
+                key={d.n}
+                className={`flex flex-col p-8 md:p-10 ${
+                  i < dores.length - 1 ? 'border-b border-white/10 md:border-r md:border-b-0' : ''
+                }`}
+                style={{ background: '#0B0B0B' }}
+              >
+                <div
+                  className="font-display text-fire mb-4"
+                  style={{
+                    fontSize: '2.25rem',
+                    letterSpacing: '-0.04em',
+                    lineHeight: '1',
+                  }}
+                >
+                  {d.n}
+                </div>
+                <h3
+                  className="font-display text-cream mb-3"
+                  style={{
+                    fontSize: '1.25rem',
+                    letterSpacing: '-0.02em',
+                    textTransform: 'uppercase',
+                    lineHeight: '1.1',
+                  }}
+                >
+                  {d.titulo}
+                </h3>
+                <p
+                  className="font-sans"
+                  style={{
+                    fontSize: '0.95rem',
+                    lineHeight: '1.55',
+                    color: 'rgba(245, 241, 232, 0.78)',
+                  }}
+                >
+                  {d.body}
+                </p>
+              </article>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* 3. QUEM É JOEL — versão enterprise */}
+      <section id="quem-e-joel" className="bg-ink relative scroll-mt-24 overflow-hidden py-24">
+        <div className="grid-overlay" />
+        <Container>
+          <div className="mx-auto grid max-w-5xl gap-10 md:grid-cols-[1fr_1.5fr] md:items-center md:gap-14">
+            <div className="border border-white/10 bg-ink-2 p-3">
+              <Image
+                src="/images/joel-burigo-vendas-sem-segredos-2-800w.webp"
+                alt="Joel Burigo"
+                width={800}
+                height={800}
+                className="w-full"
+                priority={false}
+              />
+            </div>
+            <div>
+              <div className="kicker mb-4">// QUEM_VAI_PENSAR_JUNTO_COM_VOCÊ</div>
               <h2
-                className="font-display text-cream"
+                className="font-display text-cream mb-6"
                 style={{
                   fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
                   lineHeight: '0.95',
@@ -283,64 +346,70 @@ export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
                   textTransform: 'uppercase',
                 }}
               >
-                Advisory <span className="text-acid">é</span>. Advisory{' '}
-                <span className="text-fire">não é</span>.
+                Joel Burigo. <span className="text-acid">17+ anos.</span> 140+ empresas. ~R$ 1 bilhão em vendas estruturadas.
               </h2>
-            </div>
-
-            <div className="grid gap-0 border border-white/10 md:grid-cols-2">
-              <div
-                className="border-b border-white/10 p-8 md:border-r md:border-b-0"
-                style={{ background: 'linear-gradient(180deg, rgba(198,255,0,0.04), transparent)' }}
-              >
-                <div className="mono text-acid mb-5">▲ é para</div>
-                <ul className="space-y-4">
-                  {eh.map((item) => (
-                    <li
-                      key={item}
-                      className="text-cream flex items-start gap-3 font-sans"
-                      style={{ fontSize: '1rem', lineHeight: '1.45' }}
-                    >
-                      <span className="text-acid">✓</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
+              <div className="grid grid-cols-3 gap-4 border-y border-white/10 py-5 mb-6">
+                <div>
+                  <div
+                    className="font-display text-acid"
+                    style={{ fontSize: '1.85rem', lineHeight: '1', letterSpacing: '-0.035em' }}
+                  >
+                    17+
+                  </div>
+                  <div className="mono text-fg-muted mt-1" style={{ fontSize: '0.65rem' }}>
+                    anos de prática
+                  </div>
+                </div>
+                <div>
+                  <div
+                    className="font-display text-acid"
+                    style={{ fontSize: '1.85rem', lineHeight: '1', letterSpacing: '-0.035em' }}
+                  >
+                    140+
+                  </div>
+                  <div className="mono text-fg-muted mt-1" style={{ fontSize: '0.65rem' }}>
+                    empresas
+                  </div>
+                </div>
+                <div>
+                  <div
+                    className="font-display text-acid"
+                    style={{ fontSize: '1.5rem', lineHeight: '1', letterSpacing: '-0.035em' }}
+                  >
+                    ~R$ 1BI
+                  </div>
+                  <div className="mono text-fg-muted mt-1" style={{ fontSize: '0.65rem' }}>
+                    em vendas
+                  </div>
+                </div>
               </div>
-              <div
-                className="p-8"
-                style={{ background: 'linear-gradient(180deg, rgba(255,59,15,0.04), transparent)' }}
+              <p
+                className="font-sans"
+                style={{
+                  fontSize: '1.05rem',
+                  lineHeight: '1.6',
+                  color: 'rgba(245, 241, 232, 0.85)',
+                }}
               >
-                <div className="mono text-fire mb-5">▼ NÃO é para</div>
-                <ul className="space-y-4">
-                  {naoEh.map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-3 font-sans"
-                      style={{
-                        fontSize: '1rem',
-                        lineHeight: '1.45',
-                        color: 'rgba(245, 241, 232, 0.8)',
-                      }}
-                    >
-                      <span className="text-fire">✗</span>
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+                Comecei do barraco em 2012, em <strong className="text-cream">17+ anos</strong>{' '}
+                estruturei vendas pra <strong className="text-cream">140+ empresas</strong>{' '}
+                movimentando <strong className="text-cream">~R$ 1 bilhão</strong> em vendas
+                agregadas.{' '}
+                <span className="text-acid">
+                  Não vendo execução. Vendo cabeça.
+                </span>{' '}
+                Quebrei 2× e reconstruí — por isso o método é cicatriz, não teoria.
+              </p>
             </div>
           </div>
         </Container>
       </section>
 
-      {/* 3 FORMATOS */}
+      {/* 4. FORMATOS — 3 cards com fluxos diferenciados */}
       <section
         id="formatos"
-        className="bg-ink relative overflow-hidden scroll-mt-24 py-24"
+        className="bg-ink-2 relative scroll-mt-24 overflow-hidden py-24"
       >
-        <div className="grid-overlay" />
-
         <Container>
           <div className="mx-auto mb-16 max-w-3xl">
             <div className="kicker mb-4">// FORMATOS · 3 NÍVEIS DE PROFUNDIDADE</div>
@@ -353,7 +422,7 @@ export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
                 textTransform: 'uppercase',
               }}
             >
-              Escolhe o <span className="text-acid">formato</span> que cabe no seu momento.
+              Escolhe o <span className="text-acid">formato</span> que cabe no momento.
             </h2>
             <p
               className="font-sans"
@@ -363,294 +432,461 @@ export function AdvisoryPage({ breadcrumbItems }: AdvisoryPageProps) {
                 color: 'rgba(245, 241, 232, 0.7)',
               }}
             >
-              De sessão pontual a conselheiro executivo contínuo. Garantia incondicional em todos:
-              se não agregar valor na primeira sessão, reembolso 100% · sem fricção. Sem perguntas.
+              Sessão Avulsa pra dúvida pontual (compra direta). Sprint e Conselho passam por
+              triagem — vagas limitadas conforme capacidade. Garantia incondicional na primeira
+              sessão em todos os formatos.
             </p>
           </div>
 
           <div className="grid gap-0 border border-white/10 lg:grid-cols-3 lg:items-stretch">
-            {formatos.map((f, i) => {
-              const isLast = i === formatos.length - 1;
-              const baseStyle = f.destaque
-                ? {
-                    background: 'linear-gradient(180deg, rgba(198,255,0,0.06), #0B0B0B)',
-                    borderLeft: '1px solid var(--jb-acid-border)',
-                    borderRight: '1px solid var(--jb-acid-border)',
-                  }
-                : { background: '#0B0B0B' };
-              return (
-                <article
-                  key={f.nome}
-                  className={`relative flex flex-col p-8 md:p-10 ${
-                    !isLast ? 'border-b border-white/10 lg:border-r lg:border-b-0' : ''
-                  }`}
-                  style={baseStyle}
+            {/* Card 1 — Sessão Avulsa */}
+            <article
+              className="relative flex flex-col border-b border-white/10 p-8 md:p-10 lg:border-r lg:border-b-0"
+              style={{ background: '#0B0B0B' }}
+            >
+              <h3
+                className="font-display text-cream mb-3"
+                style={{
+                  fontSize: '1.35rem',
+                  letterSpacing: '-0.02em',
+                  textTransform: 'uppercase',
+                  lineHeight: '1.1',
+                  minHeight: '2.6em',
+                }}
+              >
+                Sessão Estratégica Avulsa
+              </h3>
+              <div className="mb-6">
+                <div
+                  className="font-display text-acid"
+                  style={{
+                    fontSize: 'clamp(1.75rem, 3vw, 2.25rem)',
+                    letterSpacing: '-0.035em',
+                    lineHeight: '1',
+                  }}
                 >
-                  {f.destaque && (
-                    <div
-                      className="bg-acid absolute inline-flex items-center gap-2 px-2 py-1"
+                  {sessionPriceLabel}
+                </div>
+                <div className="mono text-fg-muted" style={{ marginTop: '4px' }}>
+                  /sessão · 90 min · pagamento único
+                </div>
+              </div>
+              <div className="mb-6 space-y-1">
+                <div className="mono text-fg-muted">// duração · 90 minutos</div>
+                <div className="mono text-fg-muted">// entrega · relatório executivo 2–3 pgs</div>
+              </div>
+              <p
+                className="mb-6 font-sans"
+                style={{
+                  fontSize: '0.95rem',
+                  lineHeight: '1.5',
+                  minHeight: '3em',
+                  color: 'rgba(245, 241, 232, 0.85)',
+                }}
+              >
+                <strong className="text-cream">Para você que:</strong> tem desafio específico e
+                precisa de direcionamento agora.
+              </p>
+              <div className="mb-6 border-t border-white/10 pt-5">
+                <div className="mono text-acid mb-3">// inclui</div>
+                <ul className="space-y-2">
+                  {[
+                    '90 min de consultoria direta (remoto)',
+                    'Diagnóstico rápido dos 6Ps',
+                    'Plano de ação (3–5 ações prioritárias)',
+                    'Gravação da sessão',
+                    'Relatório executivo pós-sessão',
+                  ].map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-2 font-sans"
                       style={{
-                        color: 'var(--jb-ink)',
-                        top: '-12px',
-                        right: '16px',
-                        zIndex: 1,
+                        fontSize: '0.875rem',
+                        lineHeight: '1.4',
+                        color: 'rgba(245, 241, 232, 0.85)',
                       }}
                     >
-                      <span
-                        className="font-display"
-                        style={{ fontSize: '0.65rem', letterSpacing: '0.15em' }}
-                      >
-                        ★ MAIS PEDIDO
-                      </span>
-                    </div>
-                  )}
+                      <span className="text-acid">▶</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-auto" style={{ width: '100%' }}>
+                <CheckoutButton
+                  productSlug="advisory-sessao"
+                  label={`Comprar sessão · ${sessionPriceLabel}`}
+                  variant="primary"
+                  size="default"
+                  className="block w-full [&>button]:w-full"
+                />
+                <p className="mono text-fg-muted mt-3" style={{ fontSize: '0.7rem' }}>
+                  ★ checkout direto · sem triagem
+                </p>
+              </div>
+            </article>
 
-                  <h3
-                    className="font-display text-cream mb-3"
-                    style={{
-                      fontSize: '1.35rem',
-                      letterSpacing: '-0.02em',
-                      textTransform: 'uppercase',
-                      lineHeight: '1.1',
-                      minHeight: '2.6em',
-                    }}
-                  >
-                    {f.nome}
-                  </h3>
-
-                  <div className="mb-6">
-                    {f.cadenciaPrefixo && (
-                      <div className="mono text-fg-muted" style={{ marginBottom: '2px' }}>
-                        {f.cadenciaPrefixo}
-                      </div>
-                    )}
-                    <div
-                      className="font-display text-acid"
+            {/* Card 2 — Sprint (destaque) */}
+            <article
+              className="relative flex flex-col border-b border-white/10 p-8 md:p-10 lg:border-r lg:border-b-0"
+              style={{
+                background: 'linear-gradient(180deg, rgba(198,255,0,0.06), #0B0B0B)',
+                borderLeft: '1px solid var(--jb-acid-border)',
+                borderRight: '1px solid var(--jb-acid-border)',
+              }}
+            >
+              <div
+                className="bg-acid absolute inline-flex items-center gap-2 px-2 py-1"
+                style={{
+                  color: 'var(--jb-ink)',
+                  top: '-12px',
+                  right: '16px',
+                  zIndex: 1,
+                }}
+              >
+                <span
+                  className="font-display"
+                  style={{ fontSize: '0.65rem', letterSpacing: '0.15em' }}
+                >
+                  ★ MAIS PEDIDO
+                </span>
+              </div>
+              <h3
+                className="font-display text-cream mb-3"
+                style={{
+                  fontSize: '1.35rem',
+                  letterSpacing: '-0.02em',
+                  textTransform: 'uppercase',
+                  lineHeight: '1.1',
+                  minHeight: '2.6em',
+                }}
+              >
+                Sprint Estratégico 30 Dias
+              </h3>
+              <div className="mb-6">
+                <div
+                  className="font-display text-acid"
+                  style={{
+                    fontSize: 'clamp(1.75rem, 3vw, 2.25rem)',
+                    letterSpacing: '-0.035em',
+                    lineHeight: '1',
+                  }}
+                >
+                  {sprintPriceLabel}
+                </div>
+                <div className="mono text-fg-muted" style={{ marginTop: '4px' }}>
+                  pagamento único · 30 dias
+                </div>
+              </div>
+              <div className="mb-6 space-y-1">
+                <div className="mono text-fg-muted">// duração · 4 sessões em 30 dias</div>
+                <div className="mono text-fg-muted">// entrega · documento estratégico 20–40 pgs</div>
+              </div>
+              <p
+                className="mb-6 font-sans"
+                style={{
+                  fontSize: '0.95rem',
+                  lineHeight: '1.5',
+                  minHeight: '3em',
+                  color: 'rgba(245, 241, 232, 0.85)',
+                }}
+              >
+                <strong className="text-cream">Para você que:</strong> tá em momento crítico e
+                precisa de plano estruturado pra 12 meses.
+              </p>
+              <div className="mb-6 border-t border-white/10 pt-5">
+                <div className="mono text-acid mb-3">// inclui</div>
+                <ul className="space-y-2">
+                  {[
+                    '4 sessões de 90 min (1 por semana)',
+                    'Diagnóstico profundo dos 6Ps',
+                    'Plano estratégico 12 meses detalhado',
+                    'WhatsApp direto com o Joel',
+                    'Documento estratégico final 20–40 pgs',
+                  ].map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-2 font-sans"
                       style={{
-                        fontSize: 'clamp(1.75rem, 3vw, 2.25rem)',
-                        letterSpacing: '-0.035em',
-                        lineHeight: '1',
+                        fontSize: '0.875rem',
+                        lineHeight: '1.4',
+                        color: 'rgba(245, 241, 232, 0.85)',
                       }}
                     >
-                      {f.investimento}
-                    </div>
-                    <div className="mono text-fg-muted" style={{ marginTop: '4px' }}>
-                      {f.cadencia}
-                    </div>
-                  </div>
+                      <span className="text-acid">▶</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-auto" style={{ width: '100%' }}>
+                <a
+                  href="/advisory-aplicacao?formato=sprint"
+                  className="btn-primary block w-full text-center"
+                  style={{ minHeight: '48px' }}
+                >
+                  Aplicar pra Sprint <span className="font-mono">→</span>
+                </a>
+                <p className="mono text-fg-muted mt-3" style={{ fontSize: '0.7rem' }}>
+                  ★ triagem mútua · vagas limitadas
+                </p>
+              </div>
+            </article>
 
-                  <div className="mb-6 space-y-1">
-                    <div className="mono text-fg-muted">// duração · {f.duracao}</div>
-                    <div className="mono text-fg-muted">// entrega · {f.entrega}</div>
-                  </div>
-
-                  <p
-                    className="mb-6 font-sans"
-                    style={{
-                      fontSize: '0.95rem',
-                      lineHeight: '1.5',
-                      minHeight: '3em',
-                      color: 'rgba(245, 241, 232, 0.85)',
-                    }}
-                  >
-                    <strong className="text-cream">Para quem:</strong> {f.paraQuem}
-                  </p>
-
-                  <div className="mb-6 border-t border-white/10 pt-5">
-                    <div className="mono text-acid mb-3">// inclui</div>
-                    <ul className="space-y-2">
-                      {f.inclusos.map((item) => (
-                        <li
-                          key={item}
-                          className="flex items-start gap-2 font-sans"
-                          style={{
-                            fontSize: '0.875rem',
-                            lineHeight: '1.4',
-                            color: 'rgba(245, 241, 232, 0.85)',
-                          }}
-                        >
-                          <span className="text-acid">▶</span>
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="mb-6 border-t border-white/10 pt-5">
-                    <div className="mono text-fire mb-3">// exemplos de uso</div>
-                    <ul className="space-y-2">
-                      {f.usos.map((u) => (
-                        <li
-                          key={u}
-                          className="font-sans"
-                          style={{
-                            fontSize: '0.85rem',
-                            lineHeight: '1.4',
-                            fontStyle: 'italic',
-                            color: 'rgba(245, 241, 232, 0.7)',
-                          }}
-                        >
-                          &ldquo;{u}&rdquo;
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="mb-6 min-h-[32px]">
-                    {f.precoEspecial && (
-                      <div className="border-acid border-l-2 pl-3">
-                        <div className="mono text-acid">★ {f.precoEspecial}</div>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mt-auto" style={{ width: '100%' }}>
-                    <CheckoutButton
-                      productSlug={f.slug}
-                      label={f.ctaLabel}
-                      variant={f.destaque ? 'fire' : 'primary'}
-                      size="default"
-                      className="block w-full [&>button]:w-full"
-                    />
-                  </div>
-                </article>
-              );
-            })}
+            {/* Card 3 — Conselho */}
+            <article
+              className="relative flex flex-col p-8 md:p-10"
+              style={{ background: '#0B0B0B' }}
+            >
+              <h3
+                className="font-display text-cream mb-3"
+                style={{
+                  fontSize: '1.35rem',
+                  letterSpacing: '-0.02em',
+                  textTransform: 'uppercase',
+                  lineHeight: '1.1',
+                  minHeight: '2.6em',
+                }}
+              >
+                Conselho Executivo
+              </h3>
+              <div className="mb-6">
+                <div className="mono text-fg-muted" style={{ marginBottom: '2px' }}>
+                  a partir de
+                </div>
+                <div
+                  className="font-display text-acid"
+                  style={{
+                    fontSize: 'clamp(1.75rem, 3vw, 2.25rem)',
+                    letterSpacing: '-0.035em',
+                    lineHeight: '1',
+                  }}
+                >
+                  {councilMinLabel}
+                </div>
+                <div className="mono text-fg-muted" style={{ marginTop: '4px' }}>
+                  /mês · até {councilMaxLabel} · mín. 3 meses
+                </div>
+              </div>
+              <div className="mb-6 space-y-1">
+                <div className="mono text-fg-muted">// duração · 3–6 meses</div>
+                <div className="mono text-fg-muted">// entrega · diagnóstico trimestral 6Ps</div>
+              </div>
+              <p
+                className="mb-6 font-sans"
+                style={{
+                  fontSize: '0.95rem',
+                  lineHeight: '1.5',
+                  minHeight: '3em',
+                  color: 'rgba(245, 241, 232, 0.85)',
+                }}
+              >
+                <strong className="text-cream">Para você que:</strong> precisa de conselheiro
+                presente — crescimento acelerado, reestruturação ou preparação pra exit.
+              </p>
+              <div className="mb-6 border-t border-white/10 pt-5">
+                <div className="mono text-acid mb-3">// inclui</div>
+                <ul className="space-y-2">
+                  {[
+                    '8 sessões/mês (2 por semana · 60 min)',
+                    'WhatsApp prioritário com o Joel',
+                    'Participação em até 2 reuniões críticas/mês',
+                    'Revisão ilimitada de materiais estratégicos',
+                    'Diagnóstico trimestral dos 6Ps',
+                  ].map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-start gap-2 font-sans"
+                      style={{
+                        fontSize: '0.875rem',
+                        lineHeight: '1.4',
+                        color: 'rgba(245, 241, 232, 0.85)',
+                      }}
+                    >
+                      <span className="text-acid">▶</span>
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="mt-auto" style={{ width: '100%' }}>
+                <a
+                  href="/advisory-aplicacao?formato=conselho"
+                  className="btn-primary block w-full text-center"
+                  style={{ minHeight: '48px' }}
+                >
+                  Aplicar pro Conselho <span className="font-mono">→</span>
+                </a>
+                <p className="mono text-fg-muted mt-3" style={{ fontSize: '0.7rem' }}>
+                  ★ triagem mútua · vagas limitadas
+                </p>
+              </div>
+            </article>
           </div>
         </Container>
       </section>
 
-      {/* GARANTIA + PROVA SOCIAL */}
-      <section className="bg-ink-2 relative py-20">
+      {/* 5. PROVA SOCIAL */}
+      <section id="prova-social" className="bg-ink relative scroll-mt-24 py-12">
         <Container>
-          <div className="mx-auto grid max-w-5xl gap-12 lg:grid-cols-[1fr_1fr]">
-            <div className="border-acid bg-ink border-l-4 p-8 md:p-10">
-              <div className="kicker mb-4">// GARANTIA INCONDICIONAL</div>
-              <p
-                className="font-display text-cream mb-4"
+          <TestimonialCarousel
+            productSlug={showAllFallback ? 'all' : 'advisory'}
+            featured
+            limit={6}
+          />
+        </Container>
+      </section>
+
+      {/* 6. COMO TRABALHO */}
+      <section id="como-trabalho" className="bg-ink-2 relative scroll-mt-24 py-20">
+        <Container>
+          <div className="mx-auto max-w-5xl">
+            <div className="mb-12">
+              <div className="kicker mb-4">// COMO_TRABALHO</div>
+              <h2
+                className="font-display text-cream"
                 style={{
-                  fontSize: 'clamp(1.5rem, 3vw, 2rem)',
-                  lineHeight: '1.05',
+                  fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
+                  lineHeight: '0.95',
                   letterSpacing: '-0.035em',
                   textTransform: 'uppercase',
                 }}
               >
-                Se não agregar valor na <span className="text-acid">primeira sessão</span>,
-                devolvemos 100%.
-              </p>
-              <p
-                className="font-sans"
-                style={{
-                  fontSize: '0.95rem',
-                  lineHeight: '1.55',
-                  color: 'rgba(245, 241, 232, 0.8)',
-                }}
-              >
-                Avisa direto e o reembolso é processado sem burocracia. Sem perguntas. Sem
-                justificativas. Válida pra Sessão Estratégica, primeira sessão do Sprint e primeira
-                semana do Conselho Executivo.
-              </p>
+                Não DFY. <span className="text-acid">É cabeça.</span> Sem PowerPoint.
+              </h2>
             </div>
 
-            <div className="border-fire bg-ink border-l-4 p-8 md:p-10">
-              <div className="kicker mb-4" style={{ color: 'var(--jb-fire)' }}>
-                // PROVAS
-              </div>
-              <div className="mb-5 grid grid-cols-3 gap-4 border-b border-white/10 pb-5">
-                <div>
-                  <div
-                    className="font-display text-acid"
-                    style={{ fontSize: '2rem', lineHeight: '1', letterSpacing: '-0.035em' }}
+            <div className="grid gap-0 border border-white/10 md:grid-cols-2">
+              {comoTrabalho.map((item, i) => (
+                <div
+                  key={item.titulo}
+                  className={`p-8 ${
+                    i % 2 === 0 ? 'md:border-r border-white/10' : ''
+                  } ${i < 2 ? 'border-b border-white/10' : ''}`}
+                  style={{ background: '#0B0B0B' }}
+                >
+                  <div className="mono text-acid mb-3">
+                    ▶ {String(i + 1).padStart(2, '0')}
+                  </div>
+                  <h3
+                    className="font-display text-cream mb-3"
+                    style={{
+                      fontSize: '1.1rem',
+                      letterSpacing: '-0.02em',
+                      textTransform: 'uppercase',
+                      lineHeight: '1.15',
+                    }}
                   >
-                    17+
-                  </div>
-                  <div className="mono text-fg-muted mt-1" style={{ fontSize: '0.6rem' }}>
-                    anos
-                  </div>
-                </div>
-                <div>
-                  <div
-                    className="font-display text-acid"
-                    style={{ fontSize: '2rem', lineHeight: '1', letterSpacing: '-0.035em' }}
+                    {item.titulo}
+                  </h3>
+                  <p
+                    className="font-sans"
+                    style={{
+                      fontSize: '0.95rem',
+                      lineHeight: '1.55',
+                      color: 'rgba(245, 241, 232, 0.78)',
+                    }}
                   >
-                    140+
-                  </div>
-                  <div className="mono text-fg-muted mt-1" style={{ fontSize: '0.6rem' }}>
-                    clientes
-                  </div>
+                    {item.body}
+                  </p>
                 </div>
-                <div>
-                  <div
-                    className="font-display text-acid"
-                    style={{ fontSize: '1.5rem', lineHeight: '1', letterSpacing: '-0.035em' }}
-                  >
-                    ~R$ 1BI
-                  </div>
-                  <div className="mono text-fg-muted mt-1" style={{ fontSize: '0.6rem' }}>
-                    em vendas
-                  </div>
-                </div>
-              </div>
-              <p
-                className="font-sans"
-                style={{
-                  fontSize: '0.95rem',
-                  lineHeight: '1.55',
-                  color: 'rgba(245, 241, 232, 0.8)',
-                }}
-              >
-                <strong className="text-cream">Case emblemático:</strong> holding de franquias — de
-                R$ 160k/mês para R$ 1 milhão/mês (+433%), leads ×8,33, holding com 1.800+
-                franqueados. 2018–2020.
-              </p>
+              ))}
             </div>
           </div>
         </Container>
       </section>
 
-      {/* CTA FINAL */}
-      <section className="bg-ink relative overflow-hidden py-24">
+      {/* 7. OBJEÇÕES */}
+      <section id="objecoes" className="bg-ink relative scroll-mt-24 overflow-hidden py-20">
         <div className="grid-overlay" />
         <Container>
-          <div
-            className="border-fire mx-auto max-w-4xl border-2 p-10 md:p-16"
-            style={{ background: 'linear-gradient(180deg, rgba(255,59,15,0.08), #050505)' }}
-          >
-            <div className="kicker mb-5" style={{ color: 'var(--jb-fire)' }}>
-              // DECISÃO
+          <div className="mx-auto max-w-4xl">
+            <div className="mb-10">
+              <div className="kicker mb-4">// OBJEÇÕES · FAQ</div>
+              <h2
+                className="font-display text-cream"
+                style={{
+                  fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
+                  lineHeight: '0.95',
+                  letterSpacing: '-0.035em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                As 5 dúvidas <span className="text-acid">que sempre rolam.</span>
+              </h2>
+            </div>
+            <div className="space-y-0 border border-white/10">
+              {objecoes.map((o, i) => (
+                <details
+                  key={o.q}
+                  className={`group ${i < objecoes.length - 1 ? 'border-b border-white/10' : ''}`}
+                  style={{ background: '#0B0B0B' }}
+                >
+                  <summary
+                    className="flex cursor-pointer items-start justify-between gap-4 p-6 font-display text-cream"
+                    style={{
+                      fontSize: '1.05rem',
+                      letterSpacing: '-0.015em',
+                      lineHeight: '1.3',
+                      listStyle: 'none',
+                    }}
+                  >
+                    <span>{o.q}</span>
+                    <span
+                      className="text-acid font-mono shrink-0 transition-transform group-open:rotate-45"
+                      aria-hidden="true"
+                    >
+                      +
+                    </span>
+                  </summary>
+                  <div
+                    className="border-t border-white/10 px-6 py-5 font-sans"
+                    style={{
+                      fontSize: '0.95rem',
+                      lineHeight: '1.6',
+                      color: 'rgba(245, 241, 232, 0.82)',
+                    }}
+                  >
+                    {o.a}
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* 8. DÚVIDAS */}
+      <section id="duvidas" className="bg-ink-2 relative scroll-mt-24 py-20">
+        <Container>
+          <div className="mx-auto max-w-3xl text-center">
+            <div className="kicker mb-4" style={{ color: 'var(--jb-fire)' }}>
+              // CONTATO_DIRETO
             </div>
             <h2
-              className="font-display text-cream mb-6"
+              className="font-display text-cream mb-5"
               style={{
-                fontSize: 'clamp(1.75rem, 4.5vw, 3rem)',
+                fontSize: 'clamp(1.75rem, 4vw, 2.75rem)',
                 lineHeight: '0.95',
-                letterSpacing: '-0.04em',
+                letterSpacing: '-0.035em',
                 textTransform: 'uppercase',
               }}
             >
-              Momento crítico não espera.
-              <br />
-              Advisory <span className="text-acid">também não.</span>
+              Ainda tem dúvidas? <span className="text-acid">Talk direto.</span>
             </h2>
             <p
               className="mb-8 font-sans"
               style={{
-                fontSize: '1.125rem',
-                lineHeight: '1.55',
-                color: 'rgba(245, 241, 232, 0.85)',
+                fontSize: '1.05rem',
+                lineHeight: '1.6',
+                color: 'rgba(245, 241, 232, 0.8)',
               }}
             >
-              Vagas limitadas conforme capacidade do momento. Seleção por fit real, não por ordem de
-              chegada. Se teu momento é agora, solicita o convite. Se não é, espera o momento certo.
+              Manda a dúvida específica do teu momento. Joel responde pessoalmente — sem
+              intermediário, sem call obrigatória, sem script.
             </p>
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-              <a
-                href="mailto:joel@joelburigo.com.br?subject=Solicita%C3%A7%C3%A3o%20Advisory"
-                className="btn-fire"
-              >
-                Solicitar convite →
-              </a>
-              <span className="mono text-fg-muted">★ SEM ENROLAÇÃO · RESPOSTA DIRETA</span>
+            <div className="flex justify-center">
+              <DoubtsPopup productSlug="advisory" landingPage="/advisory" />
             </div>
           </div>
         </Container>

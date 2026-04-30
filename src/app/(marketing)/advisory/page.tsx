@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   alternates: { canonical: '/advisory' },
 };
 
+export const revalidate = 300;
+
 const advisorySchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
@@ -65,7 +67,7 @@ const advisorySchema = {
   },
 };
 
-export default function AdvisoryRoute() {
+export default async function AdvisoryRoute() {
   return (
     <>
       <script

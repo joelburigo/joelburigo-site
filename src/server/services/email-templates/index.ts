@@ -19,4 +19,12 @@ export {
   type DoubtsConfirmationProps,
 } from './doubts-confirmation';
 export { paymentPending } from './payment-pending';
+export {
+  advisoryApplicationAdminNotification,
+  type AdvisoryApplicationAdminNotificationProps,
+} from './advisory-application-admin-notification';
+export {
+  advisoryApplicationConfirmation,
+  type AdvisoryApplicationConfirmationProps,
+} from './advisory-application-confirmation';
 export type { RenderedEmail } from './magic-link';
