@@ -77,7 +77,7 @@ Skeletons por canal — copie o arquivo, edite copy seguindo ANTI_DRIFT, entregu
 - "Ligar a Máquina" (implementar os 6Ps)
 - "Da quebrada ao bilhão"
 - "Sem enrolação" · "Na moral"
-- "Se tua empresa depende de ti, tu não tem empresa — tu tem emprego"
+- "Fatura R$ 200k+ e depende de você? Não é empresa. É emprego"
 - "Marketing sem vendas é hobby caro"
 - "Improviso mata mais empresa que crise"
 

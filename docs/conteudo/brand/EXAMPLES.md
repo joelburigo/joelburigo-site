@@ -127,7 +127,7 @@ e desbloqueie seu potencial máximo!
 
 ```
 Assunto A: Teu marketing vende. Tuas vendas não fecham.
-Assunto B: Se tua empresa depende de ti, tu não tem empresa — tu tem emprego.
+Assunto B: Fatura R$ 200k+ e depende de você? Não é empresa. É emprego.
 Assunto C: R$ 50k/mês travado há 8 meses? Abre.
 ```
 

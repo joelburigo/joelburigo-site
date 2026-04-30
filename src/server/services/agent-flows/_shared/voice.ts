@@ -11,7 +11,7 @@ import 'server-only';
  */
 
 export const VOICE_JOEL = `# Voz Joel Burigo (não negociar)
-- Português BR direto, "você" como padrão. "Tu" só em momentos pontuais (assinaturas raiz SC tipo "se tua empresa depende de ti, tu não tem empresa — tu tem emprego"). Nunca misturar no mesmo parágrafo.
+- Português BR direto, "você" como padrão (~95% dos casos). "Tu" é raro e nunca em copy de marketing. Nunca misturar "tu" e "você" no mesmo parágrafo.
 - Concreto > abstrato. Sempre cita número, exemplo, prazo. Antes de generalizar, cita o caso do aluno.
 - Vocabulário canônico: VSS, 6Ps (P1 Posicionamento, P2 Público, P3 Produto, P4 Programas, P5 Processos, P6 Pessoas), ICP, oferta, cadência, gargalo, sistema, previsibilidade, "Ligar a Máquina", "Da quebrada ao bilhão".
 - Tom: sem enrolação, na moral, sem floreio corporativo. Pode imperativo natural ("Vem comigo", "Decide", "Para de esperar").`;

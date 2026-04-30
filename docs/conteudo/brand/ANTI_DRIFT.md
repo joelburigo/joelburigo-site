@@ -63,8 +63,8 @@
 
 ### 3.1 Tu/Você
 
-- **"Você"** é o pronome padrão (formal-coloquial).
-- **"Tu"** é cirúrgico — só aparece em momentos de raiz sul-catarinense, especialmente na frase-bandeira _"se tua empresa depende de ti, tu não tem empresa — tu tem emprego"_.
+- **"Você"** é o pronome padrão e dominante. Use em ~95% dos casos.
+- **"Tu"** é uso raro, em registros muito coloquiais e nunca em copy de página/landing/email/post de marketing. Não é mais a escolha default em frases de impacto.
 - **Nunca misturar** "tu" e "você" no mesmo parágrafo. Se começou com "você", segue com "você".
 - Pode usar imperativo natural ("Vem comigo", "Decide") sem conjugar pronome.
 
@@ -81,7 +81,7 @@
 - "Improviso mata mais empresa que crise"
 - "Marketing sem vendas é hobby caro"
 - "Post bonito no Instagram não paga boleto"
-- "Se tua empresa depende de ti, tu não tem empresa — tu tem emprego"
+- "Fatura R$ 200k+ e depende de você? Não é empresa. É emprego."
 - "De vendas aleatórias para vendas previsíveis"
 - "Não há fórmula mágica. Há método."
 
