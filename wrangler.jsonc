@@ -68,10 +68,10 @@
       },
       "triggers": {
         "crons": [
-          "0 3 * * *",     /* agent-usage-rollup diário 03:00 UTC */
-          "*/15 * * * *",  /* google-calendar pull (15 min) */
-          "0 4 * * *",     /* google-webhook renew diário 04:00 UTC */
-          "*/5 * * * *"    /* publish-due-posts (5 min) */
+          "0 3 * * *",                  /* agent-usage-rollup diário 03:00 UTC */
+          "*/30 0-3,9-23 * * *",        /* google-calendar pull · 30min · pula 1-6h BRT (4-8h UTC) */
+          "0 4 * * *",                  /* google-webhook renew diário 04:00 UTC */
+          "*/30 0-3,9-23 * * *"         /* publish-due-posts · 30min · pula 1-6h BRT (4-8h UTC) */
         ]
       }
     },
@@ -118,9 +118,9 @@
       "triggers": {
         "crons": [
           "0 3 * * *",
-          "*/15 * * * *",
+          "*/30 0-3,9-23 * * *",
           "0 4 * * *",
-          "*/5 * * * *"
+          "*/30 0-3,9-23 * * *"
         ]
       }
     }

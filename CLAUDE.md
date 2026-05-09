@@ -139,9 +139,16 @@ Cada commit de main vai pra dev automaticamente. Pra prod, abre Actions → Depl
 Definidos em `wrangler.jsonc[env.<env>.triggers.crons]`:
 
 - `0 3 * * *` — agent-usage-rollup (diário 03:00 UTC)
-- `*/15 * * * *` — calendar pull Google
-- `0 4 * * *` — calendar webhook renew
-- `*/5 * * * *` — publish-due-posts blog
+- `*/30 0-3,9-23 * * *` — calendar pull Google · 30min · pausa 1-6h BRT (4-8h UTC)
+- `0 4 * * *` — calendar webhook renew (diário 04:00 UTC)
+- `*/30 0-3,9-23 * * *` — publish-due-posts blog · 30min · pausa 1-6h BRT (4-8h UTC)
+
+**Por que `*/30` + janela de pausa**: Neon free tier conta CU-hr (compute-hours).
+Cron `*/5` mantinha o compute acordado 24/7 (auto-suspend só dispara em 5min idle)
+→ ~720 CU-hr/mês mesmo sem 1 visita. Com `*/30` + 5h de pausa de madrugada, o
+compute consegue suspender entre execuções e a janela 1-6h BRT garante 5h corridas
+de zero atividade. Resultado: ~78 invocações/dia (era 386), -80%. Trade-off: posts
+agendados pra madrugada publicam só às 6h BRT (aceitável — ninguém lê às 3h).
 
 ## Roadmap
 
